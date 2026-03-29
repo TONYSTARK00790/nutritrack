@@ -1,0 +1,36 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="continentalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E90FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0047AB;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <circle cx="100" cy="100" r="95" fill="url(#continentalGrad)" opacity="0.15"/>
+  
+  <!-- Plate and utensils -->
+  <g transform="translate(100, 100)">
+    <!-- Plate -->
+    <circle cx="0" cy="5" r="45" fill="#E8E8E8" stroke="#1E90FF" stroke-width="2.5"/>
+    <circle cx="0" cy="5" r="38" fill="#F5F5F5" stroke="#B0C4DE" stroke-width="1"/>
+    
+    <!-- Fork on left -->
+    <g>
+      <line x1="-35" y1="-25" x2="-28" y2="35" stroke="#4A7BA7" stroke-width="3" stroke-linecap="round"/>
+      <!-- Tines -->
+      <line x1="-35" y1="-10" x2="-32" y2="35" stroke="#4A7BA7" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-28" y1="-10" x2="-25" y2="35" stroke="#4A7BA7" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-21" y1="-10" x2="-18" y2="35" stroke="#4A7BA7" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Knife on right -->
+    <line x1="28" y1="-30" x2="35" y2="35" stroke="#4A7BA7" stroke-width="3" stroke-linecap="round"/>
+    <!-- Knife blade detail -->
+    <path d="M 30 -20 L 37 30" stroke="#6495ED" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Food on plate (decorative) -->
+    <circle cx="-8" cy="-5" r="6" fill="#90EE90" opacity="0.8"/>
+    <circle cx="8" cy="5" r="5" fill="#FFB347" opacity="0.8"/>
+    <circle cx="2" cy="-8" r="4" fill="#FF6B6B" opacity="0.8"/>
+  </g>
+</svg>

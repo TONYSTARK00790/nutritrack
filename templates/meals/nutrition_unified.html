@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% block title %}Nutrition Tracker{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-5xl mx-auto">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">🥗 Nutrition Tracker</h1>
+      <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Log meals, track norms, and explore foods</p>
+    </div>
+    <a href="{% url 'meals:add_meal' %}?date={{ selected_date|date:'Y-m-d' }}" class="btn-primary flex items-center gap-2 self-start">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+      Add Food
+    </a>
+  </div>
+
+  <!-- Date Navigation -->
+  <div class="nt-card p-4 mb-6 flex items-center justify-between">
+    <a href="?date={{ prev_date|date:'Y-m-d' }}" class="w-10 h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </a>
+    <div class="text-center">
+      <p class="font-display font-bold text-gray-900 dark:text-white">
+        {% if is_today %}Today{% else %}{{ selected_date|date:"l" }}{% endif %}
+      </p>
+      <p class="text-sm text-gray-500">{{ selected_date|date:"F j, Y" }}</p>
+    </div>
+    <a href="?date={{ next_date|date:'Y-m-d' }}" class="w-10 h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- LEFT: Meal Log (2 columns on large) -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Daily Summary -->
+      {% if totals.cal %}
+      <div class="nt-card p-6">
+        <h3 class="font-display font-semibold text-gray-700 dark:text-gray-300 mb-4 text-sm uppercase tracking-wider">Today's Summary</h3>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-200 dark:border-green-700">
+            <div class="font-display text-2xl font-bold text-green-600 dark:text-green-400">{{ totals.cal }}</div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">Calories</div>
+          </div>
+          <div class="text-center p-4 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl border border-blue-200 dark:border-blue-700">
+            <div class="font-display text-2xl font-bold text-blue-600 dark:text-blue-400">{{ totals.pro }}g</div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">Protein</div>
+          </div>
+          <div class="text-center p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl border border-amber-200 dark:border-amber-700">
+            <div class="font-display text-2xl font-bold text-amber-600 dark:text-amber-400">{{ totals.carb }}g</div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">Carbs</div>
+          </div>
+          <div class="text-center p-4 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl border border-red-200 dark:border-red-700">
+            <div class="font-display text-2xl font-bold text-red-600 dark:text-red-400">{{ totals.fat }}g</div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">Fat</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Meal Groups -->
+      <div class="space-y-4">
+        {% for mt_code, mt_data in grouped.items %}
+        <div class="nt-card overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-transparent dark:from-gray-800/50">
+            <div class="flex items-center gap-3">
+              <span class="text-xl">{{ mt_data.icon }}</span>
+              <div>
+                <h3 class="font-display font-semibold text-gray-800 dark:text-white">{{ mt_data.label }}</h3>
+                <p class="text-xs text-gray-400">{{ mt_data.total_cal }} kcal</p>
+              </div>
+            </div>
+            <a href="{% url 'meals:add_meal' %}?meal_type={{ mt_code }}&date={{ selected_date|date:'Y-m-d' }}"
+               class="btn-primary text-xs px-3 py-1.5">+ Add</a>
+          </div>
+          
+          {% if mt_data.meals %}
+          <div class="divide-y divide-gray-50 dark:divide-gray-700/50">
+            {% for meal in mt_data.meals %}
+            <div class="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-lg">
+                {{ meal.food.get_category_icon }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-medium text-gray-800 dark:text-white text-sm">{{ meal.food.name }}</p>
+                <p class="text-xs text-gray-400">{{ meal.quantity }}g · P: {{ meal.total_protein|floatformat:1 }}g · C: {{ meal.total_carbs|floatformat:1 }}g · F: {{ meal.total_fat|floatformat:1 }}g</p>
+              </div>
+              <div class="text-right shrink-0">
+                <p class="font-display font-bold text-gray-900 dark:text-white text-sm">{{ meal.total_calories|floatformat:0 }}</p>
+                <p class="text-xs text-gray-400">kcal</p>
+              </div>
+              <div class="flex gap-1 shrink-0">
+                <div class="flex items-center gap-1 mr-2">
+                  <button onclick="adjustQuantity({{ meal.pk }}, -50, this)" 
+                          class="w-6 h-6 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-400 transition-colors"
+                          title="Reduce by 50g">−</button>
+                  <span class="text-xs font-medium text-gray-500 min-w-[2rem] text-center">{{ meal.quantity }}g</span>
+                  <button onclick="adjustQuantity({{ meal.pk }}, 50, this)" 
+                          class="w-6 h-6 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-400 transition-colors"
+                          title="Increase by 50g">+</button>
+                </div>
+                <a href="{% url 'meals:edit_meal' meal.pk %}" class="w-8 h-8 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </a>
+                <form method="POST" action="{% url 'meals:delete_meal' meal.pk %}" style="display:inline">
+                  {% csrf_token %}
+                  <button type="submit" onclick="return confirm('Remove {{ meal.food.name }}?')"
+                          class="w-8 h-8 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="py-8 text-center text-gray-400">
+            <span class="text-3xl mb-2 block">{{ mt_data.icon }}</span>
+            <p class="text-sm">Nothing logged for {{ mt_data.label|lower }}</p>
+      <a href="{% url 'meals:add_meal' %}?meal_type={{ mt_code }}&date={{ selected_date|date:'Y-m-d' }}" 
+               class="text-brand-500 text-sm font-medium hover:underline mt-1 inline-block">Add food →</a>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- RIGHT: Nutrition Norms & Food Library (1 column) -->
+    <div class="space-y-6">
+      
+      <!-- Daily Norms/Targets -->
+      <div class="nt-card p-6">
+        <h3 class="font-display font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <span>🎯</span> Daily Norms
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
+            <div>
+              <p class="text-xs font-bold text-green-700 dark:text-green-400 uppercase">Calories</p>
+              <p class="text-sm text-green-900 dark:text-green-200">2000-2500</p>
+            </div>
+            <span class="text-lg">🔥</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+            <div>
+              <p class="text-xs font-bold text-blue-700 dark:text-blue-400 uppercase">Protein</p>
+              <p class="text-sm text-blue-900 dark:text-blue-200">100-150g</p>
+            </div>
+            <span class="text-lg">💪</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700">
+            <div>
+              <p class="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase">Carbs</p>
+              <p class="text-sm text-amber-900 dark:text-amber-200">225-325g</p>
+            </div>
+            <span class="text-lg">🌾</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-700">
+            <div>
+              <p class="text-xs font-bold text-red-700 dark:text-red-400 uppercase">Fats</p>
+              <p class="text-sm text-red-900 dark:text-red-200">55-75g</p>
+            </div>
+            <span class="text-lg">🧈</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-4 italic">💡 These are general recommendations. Customize in your profile for personalized targets.</p>
+      </div>
+
+      <!-- Food Library -->
+      <div class="nt-card p-6">
+        <h3 class="font-display font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <span>📚</span> Food Library
+        </h3>
+        
+        <div class="flex gap-2 mb-4">
+          <input type="text" id="foodSearch" placeholder="Search foods..." class="nt-input flex-1" autocomplete="off">
+          <select id="foodCategory" class="nt-input">
+            <option value="">All Categories</option>
+            <option value="veg">Vegetarian</option>
+            <option value="non_veg">Non-Veg</option>
+            <option value="fruit">Fruits</option>
+            <option value="snack">Snacks</option>
+          </select>
+        </div>
+
+        <div id="foodLibraryList" class="space-y-2 max-h-96 overflow-y-auto">
+          <p class="text-sm text-gray-500 text-center py-4">Type to search foods...</p>
+        </div>
+
+        <a href="{% url 'meals:add_food' %}" class="w-full mt-4 py-2 border-2 border-dashed border-gray-300 dark:border-gray-600 text-brand-600 dark:text-brand-400 font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-center text-sm">
+          ➕ Add Custom Food
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nt-card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow;
+  }
+  .nt-input {
+    @apply block w-full px-3 py-2 border-2 border-gray-200 dark:border-gray-600 rounded-lg font-medium text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 transition-all;
+  }
+  .nt-input:focus {
+    @apply border-brand-500 outline-none;
+  }
+  .btn-primary {
+    @apply px-3 py-1.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold rounded-lg transition-all text-xs;
+  }
+</style>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function adjustQuantity(mealId, adjustment, buttonElem) {
+  const formData = new FormData();
+  formData.append('adjustment', adjustment);
+  formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+  
+  fetch(`/meals/${mealId}/adjust/`, {
+    method: 'POST',
+    body: formData,
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      buttonElem.closest('.flex').querySelector('span').textContent = data.quantity + 'g';
+      buttonElem.closest('.flex').next.innerHTML = `<p class="font-display font-bold text-gray-900 dark:text-white text-sm">${Math.round(data.calories)}</p><p class="text-xs text-gray-400">kcal</p>`;
+    }
+  })
+  .catch(e => console.error(e));
+}
+
+// Food search
+document.getElementById('foodSearch').addEventListener('input', function(e) {
+  const query = e.target.value;
+  const category = document.getElementById('foodCategory').value;
+  
+  if (query.length < 2 && !category) {
+    document.getElementById('foodLibraryList').innerHTML = '<p class="text-sm text-gray-500 text-center py-4">Type to search foods...</p>';
+    return;
+  }
+  
+  fetch(`/meals/foods/?q=${query}&category=${category}`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(r => r.json())
+  .then(data => {
+    const html = data.foods.map(f => `
+      <a href="{% url 'meals:add_meal' %}?food=${f.id}" class="block p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="font-medium text-gray-900 dark:text-white">${f.name}</p>
+            <p class="text-xs text-gray-500">${f.calories}cal · ${f.protein}g protein</p>
+          </div>
+          <span>${f.icon}</span>
+        </div>
+      </a>
+    `).join('');
+    document.getElementById('foodLibraryList').innerHTML = html || '<p class="text-sm text-gray-500 text-center py-4">No foods found</p>';
+  });
+});
+
+document.getElementById('foodCategory').addEventListener('change', function() {
+  document.getElementById('foodSearch').dispatchEvent(new Event('input'));
+});
+</script>
+{% endblock %}

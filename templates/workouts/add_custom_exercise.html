@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Add Exercise - {{ custom_workout.name }}{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-2xl mx-auto">
+  <!-- Header -->
+  <div class="mb-8">
+    <a href="{% url 'workouts:edit_custom' custom_workout.pk %}" class="text-brand-500 hover:text-brand-600 text-sm font-medium flex items-center gap-1 mb-4">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to {{ custom_workout.name }}
+    </a>
+    <h1 class="font-display text-3xl font-bold text-gray-900 dark:text-white mb-2">➕ Add Exercise</h1>
+    <p class="text-gray-500 dark:text-gray-400">Add a new exercise to "{{ custom_workout.name }}"</p>
+  </div>
+
+  <!-- Form Card -->
+  <div class="nt-card p-6 md:p-8">
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      
+      <!-- Exercise Name -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Exercise Name *
+        </label>
+        {% if form.name.errors %}
+          <div class="text-red-500 text-sm mb-2">{{ form.name.errors.0 }}</div>
+        {% endif %}
+        {{ form.name }}
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">e.g., Bench Press, Squats, Pull-ups</p>
+      </div>
+
+      <!-- Two Column Layout for Sets/Reps/Rest -->
+      <div class="grid grid-cols-3 gap-4">
+        <!-- Sets -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Sets
+          </label>
+          {% if form.sets.errors %}
+            <div class="text-red-500 text-sm mb-2">{{ form.sets.errors.0 }}</div>
+          {% endif %}
+          {{ form.sets }}
+        </div>
+
+        <!-- Reps -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Reps
+          </label>
+          {% if form.reps.errors %}
+            <div class="text-red-500 text-sm mb-2">{{ form.reps.errors.0 }}</div>
+          {% endif %}
+          {{ form.reps }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">e.g., 8-12 or AMRAP</p>
+        </div>
+
+        <!-- Rest -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Rest (sec)
+          </label>
+          {% if form.rest_seconds.errors %}
+            <div class="text-red-500 text-sm mb-2">{{ form.rest_seconds.errors.0 }}</div>
+          {% endif %}
+          {{ form.rest_seconds }}
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Notes
+        </label>
+        {% if form.notes.errors %}
+          <div class="text-red-500 text-sm mb-2">{{ form.notes.errors.0 }}</div>
+        {% endif %}
+        {{ form.notes }}
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Optional cues or technique notes</p>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <button type="submit" class="btn-primary flex-1">
+          <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Add Exercise
+        </button>
+        <a href="{% url 'workouts:edit_custom' custom_workout.pk %}" class="btn-secondary flex-1 text-center">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Quick Exercise Examples -->
+  <div class="nt-card p-6 mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+    <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+      <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Example Exercise Formats
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+      <div class="text-blue-700 dark:text-blue-300">
+        <p class="font-medium">💪 Strength Focus:</p>
+        <p>3-5 sets, 3-5 reps, 3-5 min rest</p>
+      </div>
+      <div class="text-blue-700 dark:text-blue-300">
+        <p class="font-medium">📈 Hypertrophy:</p>
+        <p>3-4 sets, 8-12 reps, 60-90s rest</p>
+      </div>
+      <div class="text-blue-700 dark:text-blue-300">
+        <p class="font-medium">🔥 Endurance:</p>
+        <p>2-3 sets, 15-20 reps, 30-45s rest</p>
+      </div>
+      <div class="text-blue-700 dark:text-blue-300">
+        <p class="font-medium">🎯 AMRAP:</p>
+        <p>Sets of AMRAP (As Many Reps As Possible)</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

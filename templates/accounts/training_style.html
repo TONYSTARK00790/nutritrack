@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Your Training Style — NutriTrack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12 animate-fade-up">
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-4">
+        Choose Your Training Style 🏋️
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Select a training philosophy that matches your goals and preferences. You can always change this later!
+      </p>
+    </div>
+
+    <!-- Training Style Cards Grid -->
+    <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      {% csrf_token %}
+      
+      <!-- Jeff Nippard Card -->
+      <div class="nt-card-large group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-102">
+        <input type="radio" name="training_style" value="jeff_nippard" id="jeff_nippard" 
+          class="hidden" {% if current_style == 'jeff_nippard' %}checked{% endif %}>
+        <label for="jeff_nippard" class="block cursor-pointer">
+          <div class="bg-blue-50 dark:bg-blue-900/30 rounded-t-lg p-8 text-center border-b-2 border-blue-200 dark:border-blue-800">
+            <div class="text-6xl mb-4">🧬</div>
+            <h2 class="text-2xl font-bold text-blue-900 dark:text-blue-100 mb-2">Jeff Nippard</h2>
+            <p class="text-blue-700 dark:text-blue-300 font-semibold">Science-Based Training</p>
+          </div>
+          
+          <div class="p-6">
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              Evidence-based training with moderate intensity, controlled tempo, and technical proficiency focus.
+            </p>
+            
+            <div class="space-y-3 mb-6">
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Moderate Intensity</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">RPE-based training for optimal recovery</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Technical Focus</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Emphasis on proper form and control</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Balanced Volume</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Science-backed rep ranges and sets</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-blue-100 dark:bg-blue-900/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-blue-900 dark:text-blue-200">
+                <strong>Best for:</strong> People wanting sustainable gains with proper technique
+              </p>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="nt-tag-small bg-blue-200 dark:bg-blue-800 text-blue-900 dark:text-blue-100">50-60 min</span>
+              <span class="nt-tag-small bg-blue-200 dark:bg-blue-800 text-blue-900 dark:text-blue-100">Moderate Intensity</span>
+              <span class="nt-tag-small bg-blue-200 dark:bg-blue-800 text-blue-900 dark:text-blue-100">8+ Programs</span>
+            </div>
+          </div>
+          
+          <div class="px-6 pb-6">
+            <div class="inline-flex items-center justify-center w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+              Select This Style
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Arnold Golden Era Card -->
+      <div class="nt-card-large group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-102">
+        <input type="radio" name="training_style" value="arnold_golden" id="arnold_golden" 
+          class="hidden" {% if current_style == 'arnold_golden' %}checked{% endif %}>
+        <label for="arnold_golden" class="block cursor-pointer">
+          <div class="bg-yellow-50 dark:bg-yellow-900/30 rounded-t-lg p-8 text-center border-b-2 border-yellow-200 dark:border-yellow-800">
+            <div class="text-6xl mb-4">🏆</div>
+            <h2 class="text-2xl font-bold text-yellow-900 dark:text-yellow-100 mb-2">Arnold Golden Era</h2>
+            <p class="text-yellow-700 dark:text-yellow-300 font-semibold">High Volume Bodybuilding</p>
+          </div>
+          
+          <div class="p-6">
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              Classic split routines with multiple angles and pump focus. The training philosophy of champions.
+            </p>
+            
+            <div class="space-y-3 mb-6">
+              <div class="flex items-start">
+                <span class="text-yellow-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">High Volume</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">More volume = more pump and growth</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-yellow-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Multiple Angles</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Hit muscles from every direction</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-yellow-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Pump Focus</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Experience the mirror muscle pump</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-yellow-100 dark:bg-yellow-900/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-yellow-900 dark:text-yellow-200">
+                <strong>Best for:</strong> Bodybuilders seeking traditional mass-building splits
+              </p>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="nt-tag-small bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100">60-80 min</span>
+              <span class="nt-tag-small bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100">High Volume</span>
+              <span class="nt-tag-small bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100">9+ Programs</span>
+            </div>
+          </div>
+          
+          <div class="px-6 pb-6">
+            <div class="inline-flex items-center justify-center w-full px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-colors">
+              Select This Style
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Ronnie Coleman Card -->
+      <div class="nt-card-large group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-102">
+        <input type="radio" name="training_style" value="ronnie_coleman" id="ronnie_coleman" 
+          class="hidden" {% if current_style == 'ronnie_coleman' %}checked{% endif %}>
+        <label for="ronnie_coleman" class="block cursor-pointer">
+          <div class="bg-red-50 dark:bg-red-900/30 rounded-t-lg p-8 text-center border-b-2 border-red-200 dark:border-red-800">
+            <div class="text-6xl mb-4">💪</div>
+            <h2 class="text-2xl font-bold text-red-900 dark:text-red-100 mb-2">Ronnie Coleman</h2>
+            <p class="text-red-700 dark:text-red-300 font-semibold">Hardcore High Volume</p>
+          </div>
+          
+          <div class="p-6">
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              Extreme volume, minimal rest, massive intensity. "Everybody wanna be a bodybuilder, but nobody wanna lift no heavy ass weights!"
+            </p>
+            
+            <div class="space-y-3 mb-6">
+              <div class="flex items-start">
+                <span class="text-red-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Extreme Volume</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Maximum sets and reps for insane gains</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-red-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Heavy Compounds</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Move heavy weight on big lifts</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-red-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Minimal Rest</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Keep the intensity high throughout</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-red-100 dark:bg-red-900/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-red-900 dark:text-red-200">
+                <strong>Best for:</strong> Advanced lifters ready for hardcore training and massive gains
+              </p>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="nt-tag-small bg-red-200 dark:bg-red-800 text-red-900 dark:text-red-100">75-90 min</span>
+              <span class="nt-tag-small bg-red-200 dark:bg-red-800 text-red-900 dark:text-red-100">Extreme Volume</span>
+              <span class="nt-tag-small bg-red-200 dark:bg-red-800 text-red-900 dark:text-red-100">12+ Programs</span>
+            </div>
+          </div>
+          
+          <div class="px-6 pb-6">
+            <div class="inline-flex items-center justify-center w-full px-4 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors">
+              Select This Style
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Mixed Style Card -->
+      <div class="nt-card-large group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-102">
+        <input type="radio" name="training_style" value="mixed" id="mixed" 
+          class="hidden" {% if current_style == 'mixed' %}checked{% endif %}>
+        <label for="mixed" class="block cursor-pointer">
+          <div class="bg-purple-50 dark:bg-purple-900/30 rounded-t-lg p-8 text-center border-b-2 border-purple-200 dark:border-purple-800">
+            <div class="text-6xl mb-4">🔄</div>
+            <h2 class="text-2xl font-bold text-purple-900 dark:text-purple-100 mb-2">Mixed Style</h2>
+            <p class="text-purple-700 dark:text-purple-300 font-semibold">Variety of All Approaches</p>
+          </div>
+          
+          <div class="p-6">
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              Combine all training philosophies for complete development and maximum variety.
+            </p>
+            
+            <div class="space-y-3 mb-6">
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Complete Variety</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Access to all 48+ training programs</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">All Philosophies</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Mix science, classic, and hardcore training</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-3 font-bold">✓</span>
+                <div>
+                  <p class="font-semibold text-gray-900 dark:text-white">Maximum Flexibility</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Never get bored with your workouts</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-purple-100 dark:bg-purple-900/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-purple-900 dark:text-purple-200">
+                <strong>Best for:</strong> Those who want flexibility and variety in their training
+              </p>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="nt-tag-small bg-purple-200 dark:bg-purple-800 text-purple-900 dark:text-purple-100">All Durations</span>
+              <span class="nt-tag-small bg-purple-200 dark:bg-purple-800 text-purple-900 dark:text-purple-100">All Intensities</span>
+              <span class="nt-tag-small bg-purple-200 dark:bg-purple-800 text-purple-900 dark:text-purple-100">48+ Programs</span>
+            </div>
+          </div>
+          
+          <div class="px-6 pb-6">
+            <div class="inline-flex items-center justify-center w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors">
+              Select This Style
+            </div>
+          </div>
+        </label>
+      </div>
+
+    </form>
+
+    <!-- Comparison Table -->
+    <div class="mt-16 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+      <div class="px-6 py-8 border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-2xl font-display font-bold text-gray-900 dark:text-white">Training Style Comparison</h2>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50 dark:bg-gray-900">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Feature</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-blue-700 dark:text-blue-400">Jeff Nippard</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-yellow-700 dark:text-yellow-400">Arnold Golden</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-red-700 dark:text-red-400">Ronnie Coleman</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-purple-700 dark:text-purple-400">Mixed</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <td class="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Duration per Session</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">50-60 min</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">60-80 min</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">75-90 min</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Varies</td>
+            </tr>
+            <tr class="bg-gray-50 dark:bg-gray-700/30 hover:bg-gray-100 dark:hover:bg-gray-700/50">
+              <td class="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Intensity Level</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Moderate</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">High</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Extreme</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">All</td>
+            </tr>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <td class="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Best for Recovery</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">✓ Best</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Good</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Challenging</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Balanced</td>
+            </tr>
+            <tr class="bg-gray-50 dark:bg-gray-700/30 hover:bg-gray-100 dark:hover:bg-gray-700/50">
+              <td class="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Programs Available</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">8+ Programs</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">9+ Programs</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">12+ Programs</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">48+ Programs</td>
+            </tr>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <td class="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Experience Level</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">All Levels</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Intermediate+</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">Advanced</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-300">All Levels</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="mt-12 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 rounded-lg p-6 text-center">
+      <p class="text-gray-700 dark:text-gray-300">
+        <strong>💡 Tip:</strong> Your training style selection will customize your workout recommendations. You can change this anytime from your settings!
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nt-card-large {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .nt-card-large {
+    background: rgb(31, 41, 55);
+  }
+  
+  .nt-tag-small {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+</style>
+{% endblock %}

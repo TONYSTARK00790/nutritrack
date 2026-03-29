@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}Meal Log{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-4xl mx-auto">
+  <!-- Header with date navigation -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">Meal Log</h1>
+      <p class="text-gray-500 text-sm">Track everything you eat</p>
+    </div>
+    <a href="{% url 'meals:add_meal' %}?date={{ selected_date|date:'Y-m-d' }}" class="btn-primary flex items-center gap-2 self-start">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+      Add Food
+    </a>
+  </div>
+
+  <!-- Date Navigation -->
+  <div class="nt-card p-4 mb-6 flex items-center justify-between">
+    <a href="?date={{ prev_date|date:'Y-m-d' }}" class="w-10 h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </a>
+    <div class="text-center">
+      <p class="font-display font-bold text-gray-900 dark:text-white">
+        {% if is_today %}Today{% else %}{{ selected_date|date:"l" }}{% endif %}
+      </p>
+      <p class="text-sm text-gray-500">{{ selected_date|date:"F j, Y" }}</p>
+    </div>
+    <a href="?date={{ next_date|date:'Y-m-d' }}" class="w-10 h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- Daily Summary Bar -->
+  {% if totals.cal %}
+  <div class="nt-card p-5 mb-6">
+    <div class="grid grid-cols-4 gap-3">
+      <div class="text-center">
+        <div class="font-display text-xl font-bold text-gray-900 dark:text-white">{{ totals.cal }}</div>
+        <div class="text-xs text-gray-500">Calories</div>
+      </div>
+      <div class="text-center border-l border-gray-100 dark:border-gray-700">
+        <div class="font-display text-xl font-bold text-blue-500">{{ totals.pro }}g</div>
+        <div class="text-xs text-gray-500">Protein</div>
+      </div>
+      <div class="text-center border-l border-gray-100 dark:border-gray-700">
+        <div class="font-display text-xl font-bold text-amber-500">{{ totals.carb }}g</div>
+        <div class="text-xs text-gray-500">Carbs</div>
+      </div>
+      <div class="text-center border-l border-gray-100 dark:border-gray-700">
+        <div class="font-display text-xl font-bold text-red-500">{{ totals.fat }}g</div>
+        <div class="text-xs text-gray-500">Fat</div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Meal Groups -->
+  <div class="space-y-4">
+    {% for mt_code, mt_data in grouped.items %}
+    <div class="nt-card overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">{{ mt_data.icon }}</span>
+          <div>
+            <h3 class="font-display font-semibold text-gray-800 dark:text-white">{{ mt_data.label }}</h3>
+            <p class="text-xs text-gray-400">{{ mt_data.total }} kcal</p>
+          </div>
+        </div>
+        <a href="{% url 'meals:add_meal' %}?meal_type={{ mt_code }}&date={{ selected_date|date:'Y-m-d' }}"
+           class="btn-primary text-xs px-3 py-1.5">+ Add</a>
+      </div>
+      
+      {% if mt_data.meals %}
+      <div class="divide-y divide-gray-50 dark:divide-gray-700/50">
+        {% for meal in mt_data.meals %}
+        <div class="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-lg">
+            {{ meal.food.get_category_icon }}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-gray-800 dark:text-white text-sm">{{ meal.food.name }}</p>
+            <p class="text-xs text-gray-400">{{ meal.quantity }}g · P: {{ meal.total_protein|floatformat:1 }}g · C: {{ meal.total_carbs|floatformat:1 }}g · F: {{ meal.total_fat|floatformat:1 }}g</p>
+          </div>
+          <div class="text-right shrink-0">
+            <p class="font-display font-bold text-gray-900 dark:text-white text-sm">{{ meal.total_calories|floatformat:0 }}</p>
+            <p class="text-xs text-gray-400">kcal</p>
+          </div>
+          <div class="flex gap-1 shrink-0">
+            <!-- Quantity adjustment buttons -->
+            <div class="flex items-center gap-1 mr-2">
+              <button onclick="adjustQuantity({{ meal.pk }}, -50, this)" 
+                      class="w-6 h-6 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-400 transition-colors"
+                      title="Reduce by 50g">−</button>
+              <span class="text-xs font-medium text-gray-500 min-w-[2rem] text-center">{{ meal.quantity }}g</span>
+              <button onclick="adjustQuantity({{ meal.pk }}, 50, this)" 
+                      class="w-6 h-6 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-400 transition-colors"
+                      title="Increase by 50g">+</button>
+            </div>
+            <a href="{% url 'meals:edit_meal' meal.pk %}" class="w-8 h-8 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </a>
+            <form method="POST" action="{% url 'meals:delete_meal' meal.pk %}" style="display:inline">
+              {% csrf_token %}
+              <button type="submit" onclick="return confirm('Remove {{ meal.food.name }}?')"
+                      class="w-8 h-8 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="py-8 text-center text-gray-400">
+        <span class="text-3xl mb-2 block">{{ mt_data.icon }}</span>
+        <p class="text-sm">Nothing logged for {{ mt_data.label|lower }}</p>
+        <a href="{% url 'meals:add_meal' %}?meal_type={{ mt_code }}&date={{ selected_date|date:'Y-m-d' }}" 
+           class="text-brand-500 text-sm font-medium hover:underline mt-1 inline-block">Add food →</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+// CSRF token for AJAX requests
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function adjustQuantity(mealId, adjustment, buttonElem) {
+  const formData = new FormData();
+  formData.append('adjustment', adjustment);
+  formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+  
+  fetch(`/meals/${mealId}/adjust/`, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Update the quantity display
+      const quantitySpan = buttonElem.closest('.flex.items-center.gap-4').querySelector('.text-xs.font-medium');
+      if (quantitySpan) quantitySpan.textContent = data.quantity + 'g';
+      
+      // Update the nutritional info
+      const mealRow = buttonElem.closest('.flex.items-center.gap-4');
+      if (mealRow) {
+        const nutritionalInfo = mealRow.querySelector('.text-xs.text-gray-400');
+        if (nutritionalInfo) {
+          nutritionalInfo.textContent = `${data.quantity}g · P: ${data.protein}g · C: ${data.carbs}g · F: ${data.fat}g`;
+        }
+        const calorieDisplay = mealRow.querySelector('.font-display.font-bold');
+        if (calorieDisplay) calorieDisplay.textContent = Math.round(data.calories);
+      }
+      
+      // Show a brief success indicator
+      const originalBg = buttonElem.style.backgroundColor;
+      buttonElem.style.backgroundColor = '#10b981';
+      buttonElem.style.color = 'white';
+      setTimeout(() => {
+        buttonElem.style.backgroundColor = originalBg;
+        buttonElem.style.color = '';
+      }, 200);
+    }
+  })
+  .catch(error => {
+    console.error('Error adjusting quantity:', error);
+  });
+}
+</script>
+{% endblock %}

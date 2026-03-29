@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}All Workouts{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-6xl mx-auto">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">💪 Browse Workouts</h1>
+      <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Select a workout to log your performance</p>
+    </div>
+    <a href="{% url 'workouts:history' %}" class="btn-secondary flex items-center gap-2 self-start">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      Workout History
+    </a>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="nt-card p-4 mb-6 flex gap-2 overflow-x-auto">
+    <a href="{% url 'workouts:browse' %}" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if not selected_type %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+      📋 All Workouts
+    </a>
+    <a href="?type=hypertrophy" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'hypertrophy' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+      💪 Hypertrophy
+    </a>
+    <a href="?type=strength" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'strength' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+      🏋️ Strength
+    </a>
+    <a href="?type=endurance" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'endurance' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+      🏃 Endurance
+    </a>
+    <a href="?type=balanced" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'balanced' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+      ⚖️ Balanced
+    </a>
+  </div>
+
+  <!-- Workouts Grid by Category -->
+  <div class="space-y-8">
+    {% for type_code, type_data in grouped.items %}
+      {% with workouts=type_data.workouts %}
+        {% if workouts.count > 0 %}
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl">{{ type_data.icon }}</span>
+            <h2 class="font-display text-xl font-bold text-gray-900 dark:text-white">{{ type_data.name }} Workouts</h2>
+            <span class="ml-auto text-sm text-gray-500">{{ workouts.count }} workouts</span>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for workout in workouts %}
+            <div class="nt-card p-6 hover:shadow-lg transition-all">
+              <!-- Header -->
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <h3 class="font-display font-bold text-gray-900 dark:text-white text-lg">{{ workout.name }}</h3>
+                  <p class="text-xs text-gray-500 mt-1">⏱️ {{ workout.duration_min }} minutes</p>
+                </div>
+                <span class="text-2xl">{{ type_data.icon }}</span>
+              </div>
+
+              <!-- Description -->
+              {% if workout.description %}
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ workout.description }}</p>
+              {% endif %}
+
+              <!-- Exercises Preview -->
+              {% if workout.exercises.count > 0 %}
+              <div class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-3 mb-4">
+                <p class="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Exercises</p>
+                <ul class="space-y-1">
+                  {% for exercise in workout.exercises.all|slice:":3" %}
+                  <li class="text-xs text-gray-700 dark:text-gray-300">
+                    • {{ exercise.name }}
+                    {% if exercise.sets %}({{ exercise.sets }}x{{ exercise.reps }}){% endif %}
+                  </li>
+                  {% endfor %}
+                  {% if workout.exercises.count > 3 %}
+                  <li class="text-xs text-gray-500 italic">+{{ workout.exercises.count|add:"-3" }} more...</li>
+                  {% endif %}
+                </ul>
+              </div>
+              {% endif %}
+
+              <!-- Log Button -->
+              <a href="{% url 'workouts:log' workout.pk %}" class="w-full py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold rounded-lg transition-all transform hover:shadow-md active:scale-95 text-center text-sm">
+                🎯 Log This Workout
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      {% endwith %}
+    {% endfor %}
+  </div>
+
+  <!-- Empty State -->
+  {% if not grouped %}
+  <div class="nt-card p-12 text-center">
+    <div class="text-5xl mb-4">🏋️</div>
+    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">No Workouts Found</h3>
+    <p class="text-gray-600 dark:text-gray-400 text-sm">We're adding more workouts soon. Check back later!</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

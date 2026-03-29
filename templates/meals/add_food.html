@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Add Custom Food{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-2xl mx-auto">
+  <div class="flex items-center gap-3 mb-6">
+    <a href="{% url 'meals:food_database' %}" class="w-9 h-9 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center transition-colors">
+      <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </a>
+    <div>
+      <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">Add Custom Food</h1>
+      <p class="text-gray-500 text-sm">Add a food not in the database</p>
+    </div>
+  </div>
+
+  <div class="nt-card p-6">
+    <!-- Macro preview -->
+    <div class="bg-gradient-to-r from-brand-50 to-teal-50 dark:from-brand-900/20 dark:to-teal-900/20 rounded-xl p-4 mb-6 border border-brand-100 dark:border-brand-800">
+      <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Per 100g Preview</p>
+      <div class="grid grid-cols-4 gap-3 text-center">
+        <div>
+          <p class="font-display text-2xl font-bold text-brand-600" id="prevCal">0</p>
+          <p class="text-xs text-gray-500">kcal</p>
+        </div>
+        <div>
+          <p class="font-display text-2xl font-bold text-blue-600" id="prevPro">0g</p>
+          <p class="text-xs text-gray-500">protein</p>
+        </div>
+        <div>
+          <p class="font-display text-2xl font-bold text-amber-600" id="prevCarb">0g</p>
+          <p class="text-xs text-gray-500">carbs</p>
+        </div>
+        <div>
+          <p class="font-display text-2xl font-bold text-red-500" id="prevFat">0g</p>
+          <p class="text-xs text-gray-500">fat</p>
+        </div>
+      </div>
+    </div>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Food Name *</label>
+        {{ form.name }}
+        {% if form.name.errors %}<p class="text-red-500 text-xs mt-1">{{ form.name.errors.0 }}</p>{% endif %}
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Calories (kcal/100g) *</label>
+          <input type="number" name="calories_per_100g" id="inp_cal" step="0.1" min="0"
+                 class="nt-input" placeholder="e.g. 52" oninput="updatePreview()">
+          {% if form.calories_per_100g.errors %}<p class="text-red-500 text-xs mt-1">{{ form.calories_per_100g.errors.0 }}</p>{% endif %}
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Category</label>
+          {{ form.category }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Protein (g/100g)</label>
+          <input type="number" name="protein" id="inp_pro" step="0.1" min="0"
+                 class="nt-input" placeholder="e.g. 3.2" oninput="updatePreview()">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Carbs (g/100g)</label>
+          <input type="number" name="carbs" id="inp_carb" step="0.1" min="0"
+                 class="nt-input" placeholder="e.g. 11.4" oninput="updatePreview()">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Fat (g/100g)</label>
+          <input type="number" name="fat" id="inp_fat" step="0.1" min="0"
+                 class="nt-input" placeholder="e.g. 0.3" oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Fiber (g/100g)</label>
+        {{ form.fiber }}
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="btn-primary flex-1 py-3">Gimme Noms ➕</button>
+        <a href="{% url 'meals:food_database' %}" class="btn-secondary px-6 py-3">Big Oof (Cancel) 🙃</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function updatePreview() {
+  const cal = parseFloat(document.getElementById('inp_cal').value) || 0;
+  const pro = parseFloat(document.getElementById('inp_pro').value) || 0;
+  const carb = parseFloat(document.getElementById('inp_carb').value) || 0;
+  const fat = parseFloat(document.getElementById('inp_fat').value) || 0;
+  document.getElementById('prevCal').textContent = Math.round(cal);
+  document.getElementById('prevPro').textContent = pro.toFixed(1) + 'g';
+  document.getElementById('prevCarb').textContent = carb.toFixed(1) + 'g';
+  document.getElementById('prevFat').textContent = fat.toFixed(1) + 'g';
+}
+</script>
+{% endblock %}

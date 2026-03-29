@@ -1,0 +1,25 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="beverageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BCD4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00838F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="url(#beverageGrad)" opacity="0.15"/>
+  <g transform="translate(100, 100)">
+    <!-- Glass -->
+    <path d="M -18 -15 L -22 35 Q -22 40 -18 40 L 18 40 Q 22 40 22 35 L 18 -15 Z" fill="none" stroke="#00838F" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- Liquid inside -->
+    <path d="M -16 5 L -20 35 Q -20 38 -16 38 L 16 38 Q 20 38 20 35 L 16 5 Z" fill="#FFB300" opacity="0.85"/>
+    
+    <!-- Straw -->
+    <line x1="-6" y1="-25" x2="-6" y2="35" stroke="#FF6B9D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-4" y1="-25" x2="-4" y2="35" stroke="#FF1493" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    
+    <!-- Bubbles in drink -->
+    <circle cx="-8" cy="15" r="2" fill="#FFF9C4" opacity="0.7"/>
+    <circle cx="5" cy="22" r="1.5" fill="#FFF9C4" opacity="0.7"/>
+    <circle cx="0" cy="30" r="1.8" fill="#FFF9C4" opacity="0.7"/>
+  </g>
+</svg>

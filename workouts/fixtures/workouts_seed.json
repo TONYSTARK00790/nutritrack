@@ -1,0 +1,2874 @@
+[
+  {
+    "model": "workouts.workout",
+    "pk": 1,
+    "fields": {
+      "name": "Full Body Hypertrophy",
+      "workout_type": "hypertrophy",
+      "duration_min": 45,
+      "description": "A balanced full-body hypertrophy session focusing on compound lifts and accessory volume.",
+      "created_at": "2025-01-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 2,
+    "fields": {
+      "name": "Strength: Lower Focus",
+      "workout_type": "strength",
+      "duration_min": 40,
+      "description": "Low-rep heavy compound movements for strength development in the lower body.",
+      "created_at": "2025-01-02T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 3,
+    "fields": {
+      "name": "Endurance Circuit",
+      "workout_type": "endurance",
+      "duration_min": 30,
+      "description": "High-intensity circuit to boost cardiovascular endurance and work capacity.",
+      "created_at": "2025-01-03T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 4,
+    "fields": {
+      "name": "Upper Body Push Focus",
+      "workout_type": "hypertrophy",
+      "duration_min": 50,
+      "description": "Dedicated chest, shoulders, and triceps session for maximum upper body pump and growth.",
+      "created_at": "2025-01-04T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 5,
+    "fields": {
+      "name": "Lower Body Quad Focus",
+      "workout_type": "hypertrophy",
+      "duration_min": 50,
+      "description": "Quad-dominant leg workout with high reps and volume for hypertrophy.",
+      "created_at": "2025-01-05T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 6,
+    "fields": {
+      "name": "Pull & Back Focus",
+      "workout_type": "hypertrophy",
+      "duration_min": 45,
+      "description": "Lats, rhomboids, and back hypertrophy with pull-up variations and rowing.",
+      "created_at": "2025-01-06T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 7,
+    "fields": {
+      "name": "Arm & Shoulder Hypertrophy",
+      "workout_type": "hypertrophy",
+      "duration_min": 40,
+      "description": "Focused biceps, triceps, and shoulder work for impressive arm development.",
+      "created_at": "2025-01-07T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 8,
+    "fields": {
+      "name": "Deadlift Specialists",
+      "workout_type": "strength",
+      "duration_min": 50,
+      "description": "Heavy deadlift focus with variations and accessory exercises for posterior chain strength.",
+      "created_at": "2025-01-08T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 9,
+    "fields": {
+      "name": "Bench Press Specialists",
+      "workout_type": "strength",
+      "duration_min": 45,
+      "description": "Barbell bench press variations and heavy pressing for chest strength.",
+      "created_at": "2025-01-09T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 10,
+    "fields": {
+      "name": "Full Body Strength",
+      "workout_type": "strength",
+      "duration_min": 55,
+      "description": "Heavy compound movements across all major lifts in one session.",
+      "created_at": "2025-01-10T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 11,
+    "fields": {
+      "name": "Olympic Lifting",
+      "workout_type": "strength",
+      "duration_min": 45,
+      "description": "Snatch and clean & jerk variations with supporting strength work.",
+      "created_at": "2025-01-11T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 12,
+    "fields": {
+      "name": "HIIT Sprint Circuit",
+      "workout_type": "endurance",
+      "duration_min": 25,
+      "description": "High-intensity interval training with sprints and plyometrics for cardiovascular fitness.",
+      "created_at": "2025-01-12T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 13,
+    "fields": {
+      "name": "Cardio Blast",
+      "workout_type": "endurance",
+      "duration_min": 35,
+      "description": "Steady-state and interval cardio using rowing, bike, or treadmill.",
+      "created_at": "2025-01-13T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 14,
+    "fields": {
+      "name": "Jump Rope Circuit",
+      "workout_type": "endurance",
+      "duration_min": 20,
+      "description": "Jump rope AMRAP circuit with minimal equipment for explosive endurance.",
+      "created_at": "2025-01-14T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 15,
+    "fields": {
+      "name": "Sled Push & Drag",
+      "workout_type": "endurance",
+      "duration_min": 30,
+      "description": "Heavy sled pushes and drags for lower body conditioning and strength-endurance.",
+      "created_at": "2025-01-15T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 16,
+    "fields": {
+      "name": "CrossFit Inspired",
+      "workout_type": "balanced",
+      "duration_min": 45,
+      "description": "Functional movements combining strength, power, and conditioning in a flowing WOD.",
+      "created_at": "2025-01-16T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 17,
+    "fields": {
+      "name": "Full Body Functional",
+      "workout_type": "balanced",
+      "duration_min": 50,
+      "description": "Multi-planar movements and corrective exercises for total body fitness.",
+      "created_at": "2025-01-17T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 18,
+    "fields": {
+      "name": "Circuit Training",
+      "workout_type": "balanced",
+      "duration_min": 40,
+      "description": "Strength and conditioning circuit with minimal rest for full-body results.",
+      "created_at": "2025-01-18T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 19,
+    "fields": {
+      "name": "Compound Couplets",
+      "workout_type": "balanced",
+      "duration_min": 35,
+      "description": "Pair two heavy compounds with short rest for strength-endurance.",
+      "created_at": "2025-01-19T08:00:00Z"
+    }
+  },
+  {
+    "model": "workouts.workout",
+    "pk": 20,
+    "fields": {
+      "name": "Metabolic Conditioning",
+      "workout_type": "balanced",
+      "duration_min": 30,
+      "description": "Energy system work with varied rep ranges and short rest periods.",
+      "created_at": "2025-01-20T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 21,
+    "fields": {
+      "name": "Jeff Nippard Upper Power & Hypertrophy",
+      "workout_type": "hypertrophy",
+      "duration_min": 60,
+      "description": "Science-based upper body session combining strength and hypertrophy. Moderate intensity with controlled tempo.",
+      "created_at": "2025-01-21T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 22,
+    "fields": {
+      "name": "Jeff Nippard Lower Power & Hypertrophy",
+      "workout_type": "hypertrophy",
+      "duration_min": 60,
+      "description": "Evidence-based lower body training with strength-hypertrophy balance and proper form emphasis.",
+      "created_at": "2025-01-22T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 23,
+    "fields": {
+      "name": "Jeff Nippard Push Day",
+      "workout_type": "hypertrophy",
+      "duration_min": 55,
+      "description": "Chest, shoulders, and triceps with technical proficiency focus. RPE-based training for optimal recovery.",
+      "created_at": "2025-01-23T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 24,
+    "fields": {
+      "name": "Jeff Nippard Pull Day",
+      "workout_type": "hypertrophy",
+      "duration_min": 55,
+      "description": "Back and biceps training based on scientific principles with adequate volume distribution.",
+      "created_at": "2025-01-24T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 25,
+    "fields": {
+      "name": "Jeff Nippard Upper Hypertrophy A",
+      "workout_type": "hypertrophy",
+      "duration_min": 50,
+      "description": "Upper body hypertrophy session A with moderate-to-high rep ranges for muscle growth.",
+      "created_at": "2025-01-25T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 26,
+    "fields": {
+      "name": "Jeff Nippard Upper Hypertrophy B",
+      "workout_type": "hypertrophy",
+      "duration_min": 50,
+      "description": "Upper body hypertrophy session B with complementary exercises and progressive overload.",
+      "created_at": "2025-01-26T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 27,
+    "fields": {
+      "name": "Jeff Nippard Lower Hypertrophy A",
+      "workout_type": "hypertrophy",
+      "duration_min": 50,
+      "description": "Lower body hypertrophy with balanced quad and posterior chain development.",
+      "created_at": "2025-01-27T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 28,
+    "fields": {
+      "name": "Jeff Nippard Lower Hypertrophy B",
+      "workout_type": "hypertrophy",
+      "duration_min": 50,
+      "description": "Lower body hypertrophy session B emphasizing posterior chain and leg development.",
+      "created_at": "2025-01-28T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 29,
+    "fields": {
+      "name": "Arnold Golden Era Chest & Triceps",
+      "workout_type": "hypertrophy",
+      "duration_min": 70,
+      "description": "Classic Arnold-style high volume session for chest and triceps with pump-focused training.",
+      "created_at": "2025-01-29T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 30,
+    "fields": {
+      "name": "Arnold Golden Era Back & Biceps",
+      "workout_type": "hypertrophy",
+      "duration_min": 75,
+      "description": "Arnold's signature back and biceps workout with multiple angles for complete development.",
+      "created_at": "2025-01-30T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 31,
+    "fields": {
+      "name": "Arnold Golden Era Shoulders & Calves",
+      "workout_type": "hypertrophy",
+      "duration_min": 65,
+      "description": "Shoulder development focused on width and roundness with high-volume calf training.",
+      "created_at": "2025-02-01T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 32,
+    "fields": {
+      "name": "Arnold Golden Era Legs",
+      "workout_type": "hypertrophy",
+      "duration_min": 80,
+      "description": "High-volume leg workout combining heavy compounds with extensive isolation work.",
+      "created_at": "2025-02-02T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 33,
+    "fields": {
+      "name": "Arnold Arm Specialization",
+      "workout_type": "hypertrophy",
+      "duration_min": 60,
+      "description": "Intense biceps and triceps specialization combining heavy and pump work.",
+      "created_at": "2025-02-03T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 34,
+    "fields": {
+      "name": "Arnold Chest Specialization",
+      "workout_type": "hypertrophy",
+      "duration_min": 65,
+      "description": "Dedicated chest specialization with multiple angles and high volume for maximum growth.",
+      "created_at": "2025-02-04T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 35,
+    "fields": {
+      "name": "Arnold Back Thickness",
+      "workout_type": "hypertrophy",
+      "duration_min": 70,
+      "description": "Back mass building with rows and heavy compound movements for thickness.",
+      "created_at": "2025-02-05T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 36,
+    "fields": {
+      "name": "Arnold Shoulder Width",
+      "workout_type": "hypertrophy",
+      "duration_min": 60,
+      "description": "Lateral raise focused session for broad shoulder development and width.",
+      "created_at": "2025-02-06T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 37,
+    "fields": {
+      "name": "Arnold Leg Mass Builder",
+      "workout_type": "hypertrophy",
+      "duration_min": 75,
+      "description": "High-volume leg session for maximum mass gain with quad and hamstring emphasis.",
+      "created_at": "2025-02-07T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 38,
+    "fields": {
+      "name": "Ronnie Coleman Heavy Chest",
+      "workout_type": "hypertrophy",
+      "duration_min": 75,
+      "description": "Hardcore high-volume chest session with heavy compounds and excessive volume.",
+      "created_at": "2025-02-08T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 39,
+    "fields": {
+      "name": "Ronnie Coleman Heavy Back",
+      "workout_type": "hypertrophy",
+      "duration_min": 80,
+      "description": "Extreme volume back workout featuring heavy deadlifts and multiple rowing variations.",
+      "created_at": "2025-02-09T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 40,
+    "fields": {
+      "name": "Ronnie Coleman Heavy Legs",
+      "workout_type": "hypertrophy",
+      "duration_min": 90,
+      "description": "Massive leg workout with heavy compounds, leg press, and high-volume isolation.",
+      "created_at": "2025-02-10T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 41,
+    "fields": {
+      "name": "Ronnie Coleman Shoulders & Traps",
+      "workout_type": "hypertrophy",
+      "duration_min": 70,
+      "description": "High-volume shoulder work with heavy presses and trap specialization.",
+      "created_at": "2025-02-11T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 42,
+    "fields": {
+      "name": "Ronnie Coleman Arms & Calves",
+      "workout_type": "hypertrophy",
+      "duration_min": 65,
+      "description": "Intense arm training with high volume and aggressive calf work.",
+      "created_at": "2025-02-12T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 43,
+    "fields": {
+      "name": "Ronnie Quad Dominator",
+      "workout_type": "hypertrophy",
+      "duration_min": 70,
+      "description": "Quad-focused leg session with heavy leg press and extensions.",
+      "created_at": "2025-02-13T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 44,
+    "fields": {
+      "name": "Ronnie Deadlift Destroyer",
+      "workout_type": "strength",
+      "duration_min": 75,
+      "description": "Deadlift specialization with multiple variations and heavy accessory work.",
+      "created_at": "2025-02-14T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 45,
+    "fields": {
+      "name": "Ronnie Chest Destroyer",
+      "workout_type": "hypertrophy",
+      "duration_min": 80,
+      "description": "Extreme chest specialization with multiple press and fly variations.",
+      "created_at": "2025-02-15T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 46,
+    "fields": {
+      "name": "Ronnie High Volume Arms",
+      "workout_type": "hypertrophy",
+      "duration_min": 60,
+      "description": "Massive arm workout with drop sets and supersets for extreme pump.",
+      "created_at": "2025-02-16T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 47,
+    "fields": {
+      "name": "Ronnie Leg Press Specialist",
+      "workout_type": "hypertrophy",
+      "duration_min": 70,
+      "description": "Heavy leg press focus with extreme volume for quad and glute development.",
+      "created_at": "2025-02-17T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.workout",
+    "pk": 48,
+    "fields": {
+      "name": "Ronnie Back Thickness Builder",
+      "workout_type": "hypertrophy",
+      "duration_min": 85,
+      "description": "Heavy rowing variations and pulls for massive back thickness.",
+      "created_at": "2025-02-18T08:00:00Z"
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 101,
+    "fields": {
+      "workout": 1,
+      "name": "Barbell Squat",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 102,
+    "fields": {
+      "workout": 1,
+      "name": "Bench Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 103,
+    "fields": {
+      "workout": 1,
+      "name": "Bent-over Row",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 201,
+    "fields": {
+      "workout": 2,
+      "name": "Deadlift",
+      "sets": 5,
+      "reps": "3-5",
+      "rest_seconds": 180,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 202,
+    "fields": {
+      "workout": 2,
+      "name": "Front Squat",
+      "sets": 4,
+      "reps": "4-6",
+      "rest_seconds": 120,
+      "order": 2
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 301,
+    "fields": {
+      "workout": 3,
+      "name": "Kettlebell Swings",
+      "sets": 4,
+      "reps": "20",
+      "rest_seconds": 30,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 302,
+    "fields": {
+      "workout": 3,
+      "name": "Burpees",
+      "sets": 4,
+      "reps": "15",
+      "rest_seconds": 30,
+      "order": 2
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 401,
+    "fields": {
+      "workout": 4,
+      "name": "Dumbbell Bench Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 402,
+    "fields": {
+      "workout": 4,
+      "name": "Incline Machine Press",
+      "sets": 3,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 403,
+    "fields": {
+      "workout": 4,
+      "name": "Lateral Raise",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 404,
+    "fields": {
+      "workout": 4,
+      "name": "Tricep Dips",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 501,
+    "fields": {
+      "workout": 5,
+      "name": "Leg Press",
+      "sets": 4,
+      "reps": "10-15",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 502,
+    "fields": {
+      "workout": 5,
+      "name": "Goblet Squat",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 503,
+    "fields": {
+      "workout": 5,
+      "name": "Leg Extension",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 504,
+    "fields": {
+      "workout": 5,
+      "name": "Walking Lunges",
+      "sets": 3,
+      "reps": "12 each",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 601,
+    "fields": {
+      "workout": 6,
+      "name": "Pull-ups",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 602,
+    "fields": {
+      "workout": 6,
+      "name": "Barbell Row",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 603,
+    "fields": {
+      "workout": 6,
+      "name": "Machine Rows",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 604,
+    "fields": {
+      "workout": 6,
+      "name": "Face Pulls",
+      "sets": 3,
+      "reps": "15-20",
+      "rest_seconds": 45,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 701,
+    "fields": {
+      "workout": 7,
+      "name": "Barbell Curl",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 702,
+    "fields": {
+      "workout": 7,
+      "name": "Tricep Rope Pushdown",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 703,
+    "fields": {
+      "workout": 7,
+      "name": "Overhead Press",
+      "sets": 3,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 704,
+    "fields": {
+      "workout": 7,
+      "name": "Dumbbell Curls",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 801,
+    "fields": {
+      "workout": 8,
+      "name": "Sumo Deadlift",
+      "sets": 5,
+      "reps": "3-5",
+      "rest_seconds": 180,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 802,
+    "fields": {
+      "workout": 8,
+      "name": "Trap Bar Deadlift",
+      "sets": 4,
+      "reps": "4-6",
+      "rest_seconds": 120,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 803,
+    "fields": {
+      "workout": 8,
+      "name": "Deficit Deadlift",
+      "sets": 3,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 804,
+    "fields": {
+      "workout": 8,
+      "name": "Good Mornings",
+      "sets": 3,
+      "reps": "6-8",
+      "rest_seconds": 90,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 901,
+    "fields": {
+      "workout": 9,
+      "name": "Competition Bench Press",
+      "sets": 5,
+      "reps": "3-5",
+      "rest_seconds": 180,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 902,
+    "fields": {
+      "workout": 9,
+      "name": "Incline Bench Press",
+      "sets": 4,
+      "reps": "4-6",
+      "rest_seconds": 120,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 903,
+    "fields": {
+      "workout": 9,
+      "name": "Board Press",
+      "sets": 3,
+      "reps": "3-5",
+      "rest_seconds": 120,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 904,
+    "fields": {
+      "workout": 9,
+      "name": "Weighted Dips",
+      "sets": 3,
+      "reps": "5-8",
+      "rest_seconds": 90,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1001,
+    "fields": {
+      "workout": 10,
+      "name": "Barbell Squat",
+      "sets": 5,
+      "reps": "3-5",
+      "rest_seconds": 180,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1002,
+    "fields": {
+      "workout": 10,
+      "name": "Bench Press",
+      "sets": 5,
+      "reps": "3-5",
+      "rest_seconds": 180,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1003,
+    "fields": {
+      "workout": 10,
+      "name": "Deadlift",
+      "sets": 3,
+      "reps": "1-3",
+      "rest_seconds": 240,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1004,
+    "fields": {
+      "workout": 10,
+      "name": "Barbell Row",
+      "sets": 4,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1101,
+    "fields": {
+      "workout": 11,
+      "name": "Power Snatch",
+      "sets": 6,
+      "reps": "3",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1102,
+    "fields": {
+      "workout": 11,
+      "name": "Clean & Jerk",
+      "sets": 5,
+      "reps": "3",
+      "rest_seconds": 120,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1103,
+    "fields": {
+      "workout": 11,
+      "name": "Snatch Pulls",
+      "sets": 4,
+      "reps": "5",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1104,
+    "fields": {
+      "workout": 11,
+      "name": "Squats",
+      "sets": 4,
+      "reps": "5",
+      "rest_seconds": 90,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1201,
+    "fields": {
+      "workout": 12,
+      "name": "Treadmill Sprints",
+      "sets": 8,
+      "reps": "30 sec sprint",
+      "rest_seconds": 30,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1202,
+    "fields": {
+      "workout": 12,
+      "name": "Box Jumps",
+      "sets": 5,
+      "reps": "5",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1203,
+    "fields": {
+      "workout": 12,
+      "name": "Mountain Climbers",
+      "sets": 4,
+      "reps": "40",
+      "rest_seconds": 30,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1301,
+    "fields": {
+      "workout": 13,
+      "name": "Rowing Machine",
+      "sets": 1,
+      "reps": "20 min steady",
+      "rest_seconds": 0,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1302,
+    "fields": {
+      "workout": 13,
+      "name": "Bike HIIT",
+      "sets": 10,
+      "reps": "1 min hard / 2 min easy",
+      "rest_seconds": 0,
+      "order": 2
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1401,
+    "fields": {
+      "workout": 14,
+      "name": "Jump Rope",
+      "sets": 10,
+      "reps": "100",
+      "rest_seconds": 30,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1402,
+    "fields": {
+      "workout": 14,
+      "name": "Double Unders",
+      "sets": 5,
+      "reps": "50",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1501,
+    "fields": {
+      "workout": 15,
+      "name": "Sled Push",
+      "sets": 5,
+      "reps": "40 meters",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1502,
+    "fields": {
+      "workout": 15,
+      "name": "Sled Drag",
+      "sets": 5,
+      "reps": "40 meters",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1601,
+    "fields": {
+      "workout": 16,
+      "name": "Clean & Jerk",
+      "sets": 5,
+      "reps": "5",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1602,
+    "fields": {
+      "workout": 16,
+      "name": "Box Jumps",
+      "sets": 5,
+      "reps": "5",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1603,
+    "fields": {
+      "workout": 16,
+      "name": "Assault Bike",
+      "sets": 3,
+      "reps": "30 sec max effort",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1701,
+    "fields": {
+      "workout": 17,
+      "name": "Turkish Get-up",
+      "sets": 4,
+      "reps": "3 each side",
+      "rest_seconds": 60,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1702,
+    "fields": {
+      "workout": 17,
+      "name": "Farmer Carries",
+      "sets": 3,
+      "reps": "50 meters",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1703,
+    "fields": {
+      "workout": 17,
+      "name": "Pallof Press",
+      "sets": 3,
+      "reps": "10 each side",
+      "rest_seconds": 45,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1801,
+    "fields": {
+      "workout": 18,
+      "name": "Push-ups",
+      "sets": 4,
+      "reps": "15",
+      "rest_seconds": 30,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1802,
+    "fields": {
+      "workout": 18,
+      "name": "Bodyweight Squats",
+      "sets": 4,
+      "reps": "20",
+      "rest_seconds": 30,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1803,
+    "fields": {
+      "workout": 18,
+      "name": "Pull-ups",
+      "sets": 4,
+      "reps": "10",
+      "rest_seconds": 30,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1804,
+    "fields": {
+      "workout": 18,
+      "name": "Planks",
+      "sets": 3,
+      "reps": "60 sec",
+      "rest_seconds": 30,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 1901,
+    "fields": {
+      "workout": 19,
+      "name": "Squat",
+      "sets": 4,
+      "reps": "5",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1902,
+    "fields": {
+      "workout": 19,
+      "name": "Bench Press",
+      "sets": 5,
+      "reps": "8",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 1903,
+    "fields": {
+      "workout": 19,
+      "name": "Deadlift",
+      "sets": 4,
+      "reps": "5",
+      "rest_seconds": 120,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2001,
+    "fields": {
+      "workout": 20,
+      "name": "Kettlebell Swings",
+      "sets": 5,
+      "reps": "15",
+      "rest_seconds": 30,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2002,
+    "fields": {
+      "workout": 20,
+      "name": "Thrusters",
+      "sets": 5,
+      "reps": "10",
+      "rest_seconds": 30,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2003,
+    "fields": {
+      "workout": 20,
+      "name": "Jump Squats",
+      "sets": 4,
+      "reps": "15",
+      "rest_seconds": 30,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2101,
+    "fields": {
+      "workout": 21,
+      "name": "Bench Press",
+      "sets": 3,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2102,
+    "fields": {
+      "workout": 21,
+      "name": "Dumbbell Incline Press",
+      "sets": 3,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2103,
+    "fields": {
+      "workout": 21,
+      "name": "Barbell Rows",
+      "sets": 3,
+      "reps": "6-8",
+      "rest_seconds": 120,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2104,
+    "fields": {
+      "workout": 21,
+      "name": "Face Pulls",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2201,
+    "fields": {
+      "workout": 22,
+      "name": "Barbell Squat",
+      "sets": 3,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2202,
+    "fields": {
+      "workout": 22,
+      "name": "Romanian Deadlift",
+      "sets": 3,
+      "reps": "6-8",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2203,
+    "fields": {
+      "workout": 22,
+      "name": "Leg Press",
+      "sets": 3,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2204,
+    "fields": {
+      "workout": 22,
+      "name": "Leg Curls",
+      "sets": 2,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2301,
+    "fields": {
+      "workout": 23,
+      "name": "Barbell Bench Press",
+      "sets": 3,
+      "reps": "6-10",
+      "rest_seconds": 100,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2302,
+    "fields": {
+      "workout": 23,
+      "name": "Incline Dumbbell Press",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2303,
+    "fields": {
+      "workout": 23,
+      "name": "Dumbbell Shoulder Press",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2304,
+    "fields": {
+      "workout": 23,
+      "name": "Close Grip Bench",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2401,
+    "fields": {
+      "workout": 24,
+      "name": "Weighted Pull-ups",
+      "sets": 3,
+      "reps": "6-10",
+      "rest_seconds": 100,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2402,
+    "fields": {
+      "workout": 24,
+      "name": "Barbell Bent-over Rows",
+      "sets": 3,
+      "reps": "6-10",
+      "rest_seconds": 100,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2403,
+    "fields": {
+      "workout": 24,
+      "name": "Barbell Curls",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2404,
+    "fields": {
+      "workout": 24,
+      "name": "Machine Rows",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2501,
+    "fields": {
+      "workout": 25,
+      "name": "Barbell Bench Press",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2502,
+    "fields": {
+      "workout": 25,
+      "name": "Incline Dumbbell Flyes",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 70,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2503,
+    "fields": {
+      "workout": 25,
+      "name": "Cable Flyes",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2601,
+    "fields": {
+      "workout": 26,
+      "name": "Incline Barbell Press",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2602,
+    "fields": {
+      "workout": 26,
+      "name": "Barbell Rows",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2603,
+    "fields": {
+      "workout": 26,
+      "name": "Lat Pulldowns",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 70,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2701,
+    "fields": {
+      "workout": 27,
+      "name": "Barbell Front Squat",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2702,
+    "fields": {
+      "workout": 27,
+      "name": "Leg Press",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 80,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2703,
+    "fields": {
+      "workout": 27,
+      "name": "Leg Extensions",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2801,
+    "fields": {
+      "workout": 28,
+      "name": "Deadlifts",
+      "sets": 3,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2802,
+    "fields": {
+      "workout": 28,
+      "name": "Romanian Deadlifts",
+      "sets": 3,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2803,
+    "fields": {
+      "workout": 28,
+      "name": "Hamstring Curls",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 70,
+      "order": 3
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 2901,
+    "fields": {
+      "workout": 29,
+      "name": "Barbell Bench Press",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 75,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2902,
+    "fields": {
+      "workout": 29,
+      "name": "Incline Dumbbell Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2903,
+    "fields": {
+      "workout": 29,
+      "name": "Dumbbell Flyes",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2904,
+    "fields": {
+      "workout": 29,
+      "name": "Tricep Dips",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2905,
+    "fields": {
+      "workout": 29,
+      "name": "Rope Tricep Pushdown",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3001,
+    "fields": {
+      "workout": 30,
+      "name": "Weighted Pull-ups",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3002,
+    "fields": {
+      "workout": 30,
+      "name": "Barbell Bent-over Rows",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3003,
+    "fields": {
+      "workout": 30,
+      "name": "T-Bar Rows",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3004,
+    "fields": {
+      "workout": 30,
+      "name": "Barbell Curls",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3005,
+    "fields": {
+      "workout": 30,
+      "name": "Hammer Curls",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3101,
+    "fields": {
+      "workout": 31,
+      "name": "Overhead Press",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3102,
+    "fields": {
+      "workout": 31,
+      "name": "Lateral Raises",
+      "sets": 4,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3103,
+    "fields": {
+      "workout": 31,
+      "name": "Machine Shoulder Press",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3104,
+    "fields": {
+      "workout": 31,
+      "name": "Standing Calf Raises",
+      "sets": 4,
+      "reps": "15-20",
+      "rest_seconds": 45,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3105,
+    "fields": {
+      "workout": 31,
+      "name": "Seated Calf Raises",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3201,
+    "fields": {
+      "workout": 32,
+      "name": "Barbell Squat",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3202,
+    "fields": {
+      "workout": 32,
+      "name": "Leg Press",
+      "sets": 4,
+      "reps": "10-15",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3203,
+    "fields": {
+      "workout": 32,
+      "name": "Leg Extensions",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3204,
+    "fields": {
+      "workout": 32,
+      "name": "Hack Squats",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3205,
+    "fields": {
+      "workout": 32,
+      "name": "Walking Lunges",
+      "sets": 3,
+      "reps": "12 each",
+      "rest_seconds": 60,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3301,
+    "fields": {
+      "workout": 33,
+      "name": "Barbell Curls",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3302,
+    "fields": {
+      "workout": 33,
+      "name": "Dumbbell Curls",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3303,
+    "fields": {
+      "workout": 33,
+      "name": "Preacher Curls",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3304,
+    "fields": {
+      "workout": 33,
+      "name": "Close Grip Bench",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3305,
+    "fields": {
+      "workout": 33,
+      "name": "Tricep Dips",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3401,
+    "fields": {
+      "workout": 34,
+      "name": "Barbell Bench Press",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3402,
+    "fields": {
+      "workout": 34,
+      "name": "Incline Dumbbell Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3403,
+    "fields": {
+      "workout": 34,
+      "name": "Dumbbell Flyes",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3404,
+    "fields": {
+      "workout": 34,
+      "name": "Machine Chest Press",
+      "sets": 3,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3405,
+    "fields": {
+      "workout": 34,
+      "name": "Cable Crossovers",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3501,
+    "fields": {
+      "workout": 35,
+      "name": "Barbell Bent-over Rows",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3502,
+    "fields": {
+      "workout": 35,
+      "name": "T-Bar Rows",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3503,
+    "fields": {
+      "workout": 35,
+      "name": "Machine Rows",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3504,
+    "fields": {
+      "workout": 35,
+      "name": "Deadlifts",
+      "sets": 3,
+      "reps": "6-8",
+      "rest_seconds": 120,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3505,
+    "fields": {
+      "workout": 35,
+      "name": "Rack Pulls",
+      "sets": 3,
+      "reps": "6-8",
+      "rest_seconds": 90,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3601,
+    "fields": {
+      "workout": 36,
+      "name": "Lateral Raises",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3602,
+    "fields": {
+      "workout": 36,
+      "name": "Dumbbell Shoulder Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3603,
+    "fields": {
+      "workout": 36,
+      "name": "Machine Lateral Raises",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3604,
+    "fields": {
+      "workout": 36,
+      "name": "Reverse Pec Deck",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3605,
+    "fields": {
+      "workout": 36,
+      "name": "Shrugs",
+      "sets": 3,
+      "reps": "10-15",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3701,
+    "fields": {
+      "workout": 37,
+      "name": "Barbell Squat",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3702,
+    "fields": {
+      "workout": 37,
+      "name": "Leg Press",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3703,
+    "fields": {
+      "workout": 37,
+      "name": "Hack Squats",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3704,
+    "fields": {
+      "workout": 37,
+      "name": "Leg Extensions",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3705,
+    "fields": {
+      "workout": 37,
+      "name": "Walking Lunges",
+      "sets": 3,
+      "reps": "12 each",
+      "rest_seconds": 60,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3801,
+    "fields": {
+      "workout": 38,
+      "name": "Barbell Bench Press",
+      "sets": 4,
+      "reps": "6-8",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3802,
+    "fields": {
+      "workout": 38,
+      "name": "Incline Dumbbell Press",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3803,
+    "fields": {
+      "workout": 38,
+      "name": "Dumbbell Flyes",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 75,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3804,
+    "fields": {
+      "workout": 38,
+      "name": "Machine Chest Press",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3805,
+    "fields": {
+      "workout": 38,
+      "name": "Cable Crossovers",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 3901,
+    "fields": {
+      "workout": 39,
+      "name": "Deadlifts",
+      "sets": 5,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3902,
+    "fields": {
+      "workout": 39,
+      "name": "Barbell Bent-over Rows",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3903,
+    "fields": {
+      "workout": 39,
+      "name": "T-Bar Rows",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3904,
+    "fields": {
+      "workout": 39,
+      "name": "Machine Rows",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3905,
+    "fields": {
+      "workout": 39,
+      "name": "Lat Pulldowns",
+      "sets": 3,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4001,
+    "fields": {
+      "workout": 40,
+      "name": "Barbell Squat",
+      "sets": 5,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4002,
+    "fields": {
+      "workout": 40,
+      "name": "Leg Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4003,
+    "fields": {
+      "workout": 40,
+      "name": "Hack Squats",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 75,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4004,
+    "fields": {
+      "workout": 40,
+      "name": "Leg Extensions",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4005,
+    "fields": {
+      "workout": 40,
+      "name": "Leg Curls",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4101,
+    "fields": {
+      "workout": 41,
+      "name": "Overhead Press",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4102,
+    "fields": {
+      "workout": 41,
+      "name": "Dumbbell Shoulder Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4103,
+    "fields": {
+      "workout": 41,
+      "name": "Lateral Raises",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4104,
+    "fields": {
+      "workout": 41,
+      "name": "Barbell Shrugs",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4105,
+    "fields": {
+      "workout": 41,
+      "name": "Trap Bar Rows",
+      "sets": 3,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4201,
+    "fields": {
+      "workout": 42,
+      "name": "Barbell Curls",
+      "sets": 4,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4202,
+    "fields": {
+      "workout": 42,
+      "name": "Dumbbell Curls",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4203,
+    "fields": {
+      "workout": 42,
+      "name": "Machine Curls",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4204,
+    "fields": {
+      "workout": 42,
+      "name": "Rope Tricep Pushdown",
+      "sets": 4,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4205,
+    "fields": {
+      "workout": 42,
+      "name": "Standing Calf Raises",
+      "sets": 4,
+      "reps": "15-20",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4301,
+    "fields": {
+      "workout": 43,
+      "name": "Heavy Leg Press",
+      "sets": 5,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4302,
+    "fields": {
+      "workout": 43,
+      "name": "Leg Extensions",
+      "sets": 5,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4303,
+    "fields": {
+      "workout": 43,
+      "name": "Hack Squats",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 75,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4304,
+    "fields": {
+      "workout": 43,
+      "name": "Walking Lunges",
+      "sets": 3,
+      "reps": "12 each",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4401,
+    "fields": {
+      "workout": 44,
+      "name": "Heavy Barbell Deadlifts",
+      "sets": 6,
+      "reps": "3-5",
+      "rest_seconds": 180,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4402,
+    "fields": {
+      "workout": 44,
+      "name": "Rack Pulls",
+      "sets": 4,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4403,
+    "fields": {
+      "workout": 44,
+      "name": "Barbell Bent-over Rows",
+      "sets": 4,
+      "reps": "6-8",
+      "rest_seconds": 90,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4404,
+    "fields": {
+      "workout": 44,
+      "name": "T-Bar Rows",
+      "sets": 3,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4501,
+    "fields": {
+      "workout": 45,
+      "name": "Barbell Bench Press",
+      "sets": 5,
+      "reps": "6-10",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4502,
+    "fields": {
+      "workout": 45,
+      "name": "Incline Dumbbell Press",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4503,
+    "fields": {
+      "workout": 45,
+      "name": "Dumbbell Flyes",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 75,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4504,
+    "fields": {
+      "workout": 45,
+      "name": "Machine Chest Press",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4505,
+    "fields": {
+      "workout": 45,
+      "name": "Cable Crossovers",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 45,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4601,
+    "fields": {
+      "workout": 46,
+      "name": "Barbell Curls",
+      "sets": 5,
+      "reps": "6-10",
+      "rest_seconds": 90,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4602,
+    "fields": {
+      "workout": 46,
+      "name": "Dumbbell Curls",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4603,
+    "fields": {
+      "workout": 46,
+      "name": "Machine Curls",
+      "sets": 3,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4604,
+    "fields": {
+      "workout": 46,
+      "name": "Close Grip Bench",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 75,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4605,
+    "fields": {
+      "workout": 46,
+      "name": "Rope Tricep Pushdown",
+      "sets": 4,
+      "reps": "12-15",
+      "rest_seconds": 60,
+      "order": 5
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4701,
+    "fields": {
+      "workout": 47,
+      "name": "Heavy Leg Press",
+      "sets": 5,
+      "reps": "5-8",
+      "rest_seconds": 100,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4702,
+    "fields": {
+      "workout": 47,
+      "name": "Leg Press Variations",
+      "sets": 4,
+      "reps": "8-12",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4703,
+    "fields": {
+      "workout": 47,
+      "name": "Leg Extensions",
+      "sets": 4,
+      "reps": "10-15",
+      "rest_seconds": 60,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4704,
+    "fields": {
+      "workout": 47,
+      "name": "Hack Squats",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+
+  {
+    "model": "workouts.exercise",
+    "pk": 4801,
+    "fields": {
+      "workout": 48,
+      "name": "Heavy Barbell Rows",
+      "sets": 5,
+      "reps": "5-8",
+      "rest_seconds": 120,
+      "order": 1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4802,
+    "fields": {
+      "workout": 48,
+      "name": "T-Bar Rows",
+      "sets": 4,
+      "reps": "8-10",
+      "rest_seconds": 90,
+      "order": 2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4803,
+    "fields": {
+      "workout": 48,
+      "name": "Machine Rows",
+      "sets": 4,
+      "reps": "10-12",
+      "rest_seconds": 75,
+      "order": 3
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4804,
+    "fields": {
+      "workout": 48,
+      "name": "Lat Pulldowns",
+      "sets": 3,
+      "reps": "10-12",
+      "rest_seconds": 60,
+      "order": 4
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4805,
+    "fields": {
+      "workout": 48,
+      "name": "Pull-ups",
+      "sets": 3,
+      "reps": "8-12",
+      "rest_seconds": 60,
+      "order": 5
+    }
+  }
+]

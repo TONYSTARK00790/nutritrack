@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Food Database{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-6xl mx-auto">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div>
+      <h1 class="font-display text-5xl font-bold text-gray-900 dark:text-white">Food Database</h1>
+      <p class="text-gray-500 text-base mt-2 font-medium">Explore {{ foods|length }}+ delicious foods from around the world</p>
+    </div>
+    <a href="{% url 'meals:add_food' %}" class="btn-primary flex items-center gap-2 self-start justify-center px-6 py-3 rounded-xl font-bold text-sm">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+      Gimme Noms ➕
+    </a>
+  </div>
+
+  <!-- Search + Filter Bar -->
+  <div class="nt-card p-6 mb-8 border border-gray-200 dark:border-gray-700">
+    <div class="flex flex-col gap-6">
+      <div class="relative">
+        <input type="text" id="liveSearch" placeholder="Search delicious foods..." value="{{ query }}"
+               class="nt-input pr-10 w-full text-base rounded-xl px-5 py-3 border border-gray-300 dark:border-gray-600" autocomplete="off">
+        <svg class="absolute right-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      
+      <!-- Cuisine Filter -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1">
+          <label class="text-xs font-semibold text-gray-500 mb-2 block uppercase tracking-wider">Cuisine Type</label>
+          <div class="flex gap-2 overflow-x-auto pb-1">
+            <button onclick="filterCuisine('')" class="cui-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if not cuisine %}bg-brand-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cui="">
+              <svg class="w-5 h-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="100" cy="100" r="95" opacity="0.2"/><circle cx="100" cy="100" r="50" fill="currentColor" opacity="0.6"/></svg>
+              All Foods
+            </button>
+            <button onclick="filterCuisine('indian')" class="cui-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if cuisine == 'indian' %}bg-orange-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cui="indian">
+              <img src="{% static 'images/indian-cuisine.svg' %}" alt="Indian" class="w-5 h-5">
+              Indian
+            </button>
+            <button onclick="filterCuisine('chinese')" class="cui-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if cuisine == 'chinese' %}bg-red-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cui="chinese">
+              <img src="{% static 'images/chinese-cuisine.svg' %}" alt="Chinese" class="w-5 h-5">
+              Chinese
+            </button>
+            <button onclick="filterCuisine('continental')" class="cui-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if cuisine == 'continental' %}bg-blue-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cui="continental">
+              <img src="{% static 'images/continental-cuisine.svg' %}" alt="Continental" class="w-5 h-5">
+              Continental
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1">
+          <label class="text-xs font-semibold text-gray-500 mb-2 block uppercase tracking-wider">Category</label>
+          <div class="flex gap-2 overflow-x-auto pb-1">
+            <button onclick="filterCategory('')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if not category %}bg-brand-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="">
+              <svg class="w-5 h-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="100" cy="100" r="95" opacity="0.2"/><circle cx="100" cy="100" r="50" fill="currentColor" opacity="0.6"/></svg>
+              All
+            </button>
+            <button onclick="filterCategory('veg')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'veg' %}bg-green-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="veg">
+              <img src="{% static 'images/veg-category.svg' %}" alt="Vegetarian" class="w-5 h-5">
+              Vegetarian
+            </button>
+            <button onclick="filterCategory('non_veg')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'non_veg' %}bg-red-600 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="non_veg">
+              <img src="{% static 'images/nonveg-category.svg' %}" alt="Non-Vegetarian" class="w-5 h-5">
+              Non-Veg
+            </button>
+            <button onclick="filterCategory('grain')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'grain' %}bg-amber-600 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="grain">
+              <img src="{% static 'images/grain-category.svg' %}" alt="Grain" class="w-5 h-5">
+              Grain
+            </button>
+            <button onclick="filterCategory('snack')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'snack' %}bg-orange-600 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="snack">
+              <img src="{% static 'images/snack-category.svg' %}" alt="Snack" class="w-5 h-5">
+              Snack
+            </button>
+            <button onclick="filterCategory('fruit')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'fruit' %}bg-pink-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="fruit">
+              <img src="{% static 'images/fruit-category.svg' %}" alt="Fruit" class="w-5 h-5">
+              Fruit
+            </button>
+            <button onclick="filterCategory('beverage')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'beverage' %}bg-cyan-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="beverage">
+              <img src="{% static 'images/beverage-category.svg' %}" alt="Beverage" class="w-5 h-5">
+              Beverage
+            </button>
+            <button onclick="filterCategory('dairy')" class="cat-btn p-3 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 {% if category == 'dairy' %}bg-yellow-500 text-white shadow-lg scale-105{% else %}bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200{% endif %}" data-cat="dairy">
+              <img src="{% static 'images/dairy-category.svg' %}" alt="Dairy" class="w-5 h-5">
+              Dairy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-sm text-gray-500 font-semibold mt-4" id="resultCount">{{ foods|length }} foods found</p>
+  </div>
+
+  <!-- Foods Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="foodsGrid">
+    {% for food in foods %}
+    <div class="food-card nt-card overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group border border-gray-200 dark:border-gray-700 flex flex-col"
+         data-name="{{ food.name|lower }}"
+         data-cat="{{ food.category }}"
+         data-cuisine="{{ food.cuisine }}"
+         onclick="showFoodDetail({{ food.id }}, '{{ food.name|escapejs }}', {{ food.calories_per_100g }}, {{ food.protein }}, {{ food.carbs }}, {{ food.fat }}, '{{ food.get_category_display }}')">
+      <div class="p-5 flex flex-col flex-1">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex-1">
+            <h3 class="font-display font-semibold text-gray-800 dark:text-white text-sm group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">{{ food.name }}</h3>
+            <div class="flex gap-1 items-center flex-wrap mt-2">
+              <span class="text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-2.5 py-0.5 rounded-full whitespace-nowrap font-medium">{{ food.get_category_display }}</span>
+              <span class="text-xs font-semibold {% if food.cuisine == 'indian' %}bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300{% elif food.cuisine == 'chinese' %}bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300{% elif food.cuisine == 'continental' %}bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300{% endif %} px-2.5 py-0.5 rounded-full whitespace-nowrap">{{ food.get_cuisine_display }}</span>
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <p class="font-display font-bold text-brand-600 dark:text-brand-400 text-2xl">{{ food.calories_per_100g|floatformat:0 }}</p>
+            <p class="text-xs text-gray-400 font-semibold">kcal</p>
+          </div>
+        </div>
+      <div class="grid grid-cols-3 gap-2 text-center mb-4">
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg py-2.5 border border-blue-100 dark:border-blue-800">
+          <p class="text-xs font-bold text-blue-600 dark:text-blue-400">{{ food.protein|floatformat:1 }}g</p>
+          <p class="text-xs text-gray-500 font-medium">Protein</p>
+        </div>
+        <div class="bg-amber-50 dark:bg-amber-900/20 rounded-lg py-2.5 border border-amber-100 dark:border-amber-800">
+          <p class="text-xs font-bold text-amber-600 dark:text-amber-400">{{ food.carbs|floatformat:1 }}g</p>
+          <p class="text-xs text-gray-500 font-medium">Carbs</p>
+        </div>
+        <div class="bg-red-50 dark:bg-red-900/20 rounded-lg py-2.5 border border-red-100 dark:border-red-800">
+          <p class="text-xs font-bold text-red-600 dark:text-red-400">{{ food.fat|floatformat:1 }}g</p>
+          <p class="text-xs text-gray-500 font-medium">Fat</p>
+        </div>
+      </div>
+      <a href="{% url 'meals:add_meal' %}?food={{ food.id }}" 
+         class="mt-auto w-full block text-center py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold rounded-lg transition-all shadow-sm hover:shadow-md uppercase tracking-wide"
+         onclick="event.stopPropagation()">
+        + Log This Food
+      </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-span-3 text-center py-16 text-gray-400">
+      <span class="text-6xl block mb-4">🔍</span>
+      <p class="font-display text-lg font-bold text-gray-600 dark:text-gray-400">No foods found</p>
+      <p class="text-sm mt-2 text-gray-500">Try a different search or <a href="{% url 'meals:add_food' %}" class="text-brand-500 hover:underline font-semibold">add a new food</a></p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Food Detail Modal -->
+<div id="foodModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal()"></div>
+  <div class="relative nt-card p-8 w-full max-w-sm z-10 animate-fade-up rounded-2xl border border-gray-200 dark:border-gray-700">
+    <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-400 text-2xl font-light">×</button>
+    <h3 class="font-display text-2xl font-bold text-gray-900 dark:text-white mb-2" id="modalName"></h3>
+    <p class="text-sm text-gray-500 font-semibold mb-6" id="modalCat"></p>
+    
+    <!-- Per 100g -->
+    <div class="grid grid-cols-4 gap-3 mb-6 text-center">
+      <div class="bg-brand-50 dark:bg-brand-900/20 rounded-xl p-4 border border-brand-200 dark:border-brand-800">
+        <p class="font-display font-bold text-brand-600 dark:text-brand-400 text-xl" id="mCal"></p>
+        <p class="text-xs text-gray-500 font-semibold mt-1">kcal</p>
+      </div>
+      <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+        <p class="font-bold text-blue-600 dark:text-blue-400 text-xl" id="mPro"></p>
+        <p class="text-xs text-gray-500 font-semibold mt-1">protein</p>
+      </div>
+      <div class="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800">
+        <p class="font-bold text-amber-600 dark:text-amber-400 text-xl" id="mCarb"></p>
+        <p class="text-xs text-gray-500 font-semibold mt-1">carbs</p>
+      </div>
+      <div class="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 border border-red-200 dark:border-red-800">
+        <p class="font-bold text-red-500 dark:text-red-400 text-xl" id="mFat"></p>
+        <p class="text-xs text-gray-500 font-semibold mt-1">fat</p>
+      </div>
+    </div>
+    <p class="text-xs text-center text-gray-500 font-semibold mb-6">Per 100g serving</p>
+    <a id="modalLogBtn" href="#" class="btn-primary w-full block text-center py-3 rounded-xl font-bold text-sm uppercase tracking-wide">+ Log This Food</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+let currentCategory = '{{ category|default:"" }}';
+let currentCuisine = '{{ cuisine|default:"" }}';
+
+function filterCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    if (btn.dataset.cat === cat) {
+      btn.className = btn.className.replace(/bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200/, 'bg-brand-500 text-white shadow-md');
+    } else {
+      btn.className = btn.className.replace(/bg-brand-500 text-white shadow-md/, 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200');
+    }
+  });
+  filterFoods();
+}
+
+function filterCuisine(cui) {
+  currentCuisine = cui;
+  document.querySelectorAll('.cui-btn').forEach(btn => {
+    btn.classList.remove('shadow-md');
+    if (btn.dataset.cui === cui) {
+      btn.classList.add('shadow-md');
+      if (cui === '') btn.className = btn.className.replace(/bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200/, 'bg-brand-500 text-white');
+      else if (cui === 'indian') btn.className = btn.className.replace(/bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200/, 'bg-orange-500 text-white');
+      else if (cui === 'chinese') btn.className = btn.className.replace(/bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200/, 'bg-red-500 text-white');
+      else if (cui === 'continental') btn.className = btn.className.replace(/bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200/, 'bg-blue-500 text-white');
+    } else {
+      btn.className = btn.className.replace(/bg-(brand|orange|red|blue)-(500|900\/20) text-white/, 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200');
+    }
+  });
+  filterFoods();
+}
+
+document.getElementById('liveSearch').addEventListener('input', filterFoods);
+
+function filterFoods() {
+  const q = document.getElementById('liveSearch').value.toLowerCase();
+  const cards = document.querySelectorAll('.food-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const nameMatch = card.dataset.name.includes(q);
+    const catMatch = !currentCategory || card.dataset.cat === currentCategory;
+    const cuisineMatch = !currentCuisine || card.dataset.cuisine === currentCuisine;
+    const show = nameMatch && catMatch && cuisineMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('resultCount').textContent = visible + ' foods found';
+}
+
+function showFoodDetail(id, name, cal, pro, carb, fat, cat) {
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalCat').textContent = cat;
+  document.getElementById('mCal').textContent = cal;
+  document.getElementById('mPro').textContent = pro + 'g';
+  document.getElementById('mCarb').textContent = carb + 'g';
+  document.getElementById('mFat').textContent = fat + 'g';
+  document.getElementById('modalLogBtn').href = `/meals/add/?food=${id}`;
+  document.getElementById('foodModal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('foodModal').classList.add('hidden');
+}
+</script>
+{% endblock %}

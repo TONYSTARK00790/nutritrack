@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}My Custom Workouts{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-6xl mx-auto">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">🏋️ My Custom Workouts</h1>
+      <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">View and manage your personalized training programs</p>
+    </div>
+    <a href="{% url 'workouts:create_custom' %}" class="btn-primary flex items-center gap-2 self-start">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Create New Workout
+    </a>
+  </div>
+
+  <!-- Type Filter Tabs -->
+  {% if custom_workouts.count > 0 %}
+    <div class="nt-card p-4 mb-6 flex gap-2 overflow-x-auto">
+      <a href="{% url 'workouts:my_custom' %}" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if not selected_type %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+        📋 All Workouts
+      </a>
+      <a href="?type=hypertrophy" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'hypertrophy' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+        💪 Hypertrophy
+      </a>
+      <a href="?type=strength" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'strength' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+        🏋️ Strength
+      </a>
+      <a href="?type=endurance" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'endurance' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+        🏃 Endurance
+      </a>
+      <a href="?type=balanced" class="whitespace-nowrap px-4 py-2 rounded-lg font-medium transition-all {% if selected_type == 'balanced' %}bg-brand-500 text-white{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200{% endif %}">
+        ⚖️ Balanced
+      </a>
+    </div>
+  {% endif %}
+
+  <!-- Workouts Grid/List -->
+  {% if custom_workouts.count > 0 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for workout in custom_workouts %}
+        <div class="nt-card p-6 border-2 border-transparent hover:border-brand-500 transition-all group">
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex-1">
+              <div class="text-2xl mb-2">
+                {% if workout.workout_type == 'hypertrophy' %}💪
+                {% elif workout.workout_type == 'strength' %}🏋️
+                {% elif workout.workout_type == 'endurance' %}🏃
+                {% else %}⚖️
+                {% endif %}
+              </div>
+              <h3 class="font-display font-bold text-gray-900 dark:text-white group-hover:text-brand-500 transition-colors">
+                {{ workout.name }}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Type & Duration -->
+          <div class="space-y-2 mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <span class="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-xs font-medium">
+                {{ workout.get_workout_type_display }}
+              </span>
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              {{ workout.duration_min }} minutes
+            </div>
+          </div>
+
+          <!-- Exercise Count -->
+          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <span>
+              {{ workout.exercises.count }} exercise{{ workout.exercises.count|pluralize }}
+            </span>
+          </div>
+
+          <!-- Description (optional) -->
+          {% if workout.description %}
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+              {{ workout.description }}
+            </p>
+          {% endif %}
+
+          <!-- Action Buttons -->
+          <div class="flex gap-2">
+            <a href="{% url 'workouts:custom_detail' workout.pk %}" class="flex-1 text-center px-3 py-2 rounded-lg bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-400 hover:bg-brand-100 dark:hover:bg-brand-900/30 font-medium text-sm transition-colors">
+              View
+            </a>
+            <a href="{% url 'workouts:edit_custom' workout.pk %}" class="flex-1 text-center px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-sm transition-colors">
+              Edit
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <!-- Empty State -->
+    <div class="nt-card p-12 text-center">
+      <div class="mx-auto mb-6">
+        <svg class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <h3 class="font-display text-lg font-bold text-gray-900 dark:text-white mb-2">
+        No custom workouts yet
+      </h3>
+      <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
+        Create your first custom workout and build a personalized training program tailored to your goals.
+      </p>
+      <a href="{% url 'workouts:create_custom' %}" class="btn-primary inline-flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        Create Your First Workout
+      </a>
+    </div>
+  {% endif %}
+
+  <!-- Info Banner -->
+  <div class="nt-card p-6 mt-8 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
+    <div class="flex gap-4">
+      <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <div class="text-sm text-purple-700 dark:text-purple-400">
+        <p class="font-semibold mb-1">✨ Build Your Perfect Workout</p>
+        <p>Mix and match exercises to create custom workouts that match your training style. Start with a library of exercises or create your own!</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

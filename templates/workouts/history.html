@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Workout History{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">📊 Workout History</h1>
+      <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Track your performance over time</p>
+    </div>
+    <a href="{% url 'workouts:browse' %}" class="btn-primary flex items-center gap-2 self-start">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+      Log New Workout
+    </a>
+  </div>
+
+  <!-- Date Navigation -->
+  <div class="nt-card p-4 mb-6 flex items-center justify-between">
+    <a href="?date={{ prev_date|date:'Y-m-d' }}" class="w-10 h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </a>
+    <div class="text-center">
+      <p class="font-display font-bold text-gray-900 dark:text-white">
+        {% if is_today %}Today{% else %}{{ selected_date|date:"l" }}{% endif %}
+      </p>
+      <p class="text-sm text-gray-500">{{ selected_date|date:"F j, Y" }}</p>
+    </div>
+    <a href="?date={{ next_date|date:'Y-m-d' }}" class="w-10 h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- Workouts List -->
+  <div class="space-y-4">
+    {% for log in logs %}
+    <div class="nt-card overflow-hidden">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-transparent dark:from-gray-800/50 dark:to-transparent">
+        <div class="flex items-center gap-3 flex-1">
+          <span class="text-2xl">
+            {% if log.workout.workout_type == 'hypertrophy' %}💪
+            {% elif log.workout.workout_type == 'strength' %}🏋️
+            {% elif log.workout.workout_type == 'endurance' %}🏃
+            {% else %}⚖️{% endif %}
+          </span>
+          <div>
+            <h3 class="font-display font-bold text-gray-900 dark:text-white">
+              {{ log.workout.name if log.workout else 'Custom Workout' }}
+            </h3>
+            <p class="text-xs text-gray-500">
+              {% if log.workout %}
+                {{ log.workout.get_workout_type_display }} · 
+              {% endif %}
+              {{ log.duration_minutes|default:"—" }} min
+            </p>
+          </div>
+        </div>
+        <div class="text-right text-sm">
+          <p class="font-semibold text-gray-900 dark:text-white">{{ log.exercise_sets.count }} exercises</p>
+          <p class="text-xs text-gray-500">{{ log.created_at|date:"H:i" }}</p>
+        </div>
+      </div>
+
+      <!-- Exercise Sets -->
+      {% if log.exercise_sets.all %}
+      <div class="divide-y divide-gray-50 dark:divide-gray-700/50">
+        <!-- Group by exercise name -->
+        {% regroup log.exercise_sets.all by exercise_name as sets_by_exercise %}
+        {% for group in sets_by_exercise %}
+        <div class="px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+          <div class="mb-3">
+            <h4 class="font-bold text-gray-900 dark:text-white">{{ group.grouper }}</h4>
+          </div>
+          <div class="space-y-2">
+            {% for set_log in group.list %}
+            <div class="flex items-center justify-between text-sm bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+              <div class="flex items-center gap-3 flex-1">
+                <span class="font-semibold text-brand-600 dark:text-brand-400 min-w-[2rem]">Set {{ set_log.set_number }}</span>
+                <div class="flex gap-4">
+                  {% if set_log.weight_kg %}
+                  <span class="text-gray-700 dark:text-gray-300">
+                    ⚖️ <span class="font-medium">{{ set_log.weight_kg|floatformat:1 }}</span> kg
+                  </span>
+                  {% endif %}
+                  <span class="text-gray-700 dark:text-gray-300">
+                    💪 <span class="font-medium">{{ set_log.reps }}</span> reps
+                  </span>
+                </div>
+              </div>
+              {% if set_log.notes %}
+              <span class="text-xs text-gray-500 italic">{{ set_log.notes }}</span>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="px-5 py-6 text-center text-gray-500 dark:text-gray-400">
+        <p class="text-sm">No exercises logged</p>
+      </div>
+      {% endif %}
+
+      <!-- Notes Section -->
+      {% if log.notes %}
+      <div class="px-5 py-4 bg-blue-50 dark:bg-blue-900/20 border-t border-gray-100 dark:border-gray-700">
+        <p class="text-xs font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wider mb-2">Notes</p>
+        <p class="text-sm text-blue-900 dark:text-blue-200">{{ log.notes }}</p>
+      </div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="nt-card p-12 text-center">
+      <div class="text-5xl mb-4">🏋️</div>
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">No Workouts Logged Yet</h3>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Start logging your workouts to track your progress!</p>
+      <a href="{% url 'workouts:browse' %}" class="btn-primary inline-flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+        Log Your First Workout
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .nt-card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow;
+  }
+  .btn-primary {
+    @apply px-4 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold rounded-lg transition-all transform hover:shadow-md active:scale-95;
+  }
+</style>
+{% endblock %}

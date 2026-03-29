@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% block title %}Log Workout - {{ workout.name }}{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-3xl mx-auto">
+  <!-- Header -->
+  <div class="mb-8">
+    <a href="{% url 'workouts:browse' %}" class="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-brand-500 transition mb-4 group">
+      <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      <span>Back to Workouts</span>
+    </a>
+    <div>
+      <h1 class="font-display text-3xl font-bold text-gray-900 dark:text-white">🏋️ {{ workout.name }}</h1>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mt-2">{{ workout.get_workout_type_display }} · {{ workout.duration_min }} minutes</p>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form method="POST" id="logWorkoutForm" class="space-y-6">
+    {% csrf_token %}
+
+    <div class="nt-card p-6">
+      <!-- Workout Duration -->
+      <div class="mb-8">
+        <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">⏱️ Duration (minutes)</label>
+        <input type="number" name="duration_minutes" value="{{ workout.duration_min }}" class="nt-input" min="1" max="300">
+      </div>
+
+      <!-- Exercises -->
+      <div class="mb-8">
+        <h3 class="font-display font-bold text-gray-900 dark:text-white mb-4 text-lg">💪 Log Your Sets</h3>
+        
+        {% if workout.exercises.all %}
+          {% for exercise in workout.exercises.all %}
+          <div class="mb-8 p-5 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl border-2 border-gray-200 dark:border-gray-600">
+            <!-- Exercise Header -->
+            <div class="mb-4">
+              <h4 class="font-bold text-gray-900 dark:text-white text-lg">{{ exercise.name }}</h4>
+              {% if exercise.reps %}
+              <p class="text-sm text-gray-600 dark:text-gray-400">Target: {{ exercise.sets }}×{{ exercise.reps }}</p>
+              {% endif %}
+            </div>
+
+            <!-- Set Inputs -->
+            <div class="space-y-3">
+              {% for i in "123" %}
+              <div class="exercise-set grid grid-cols-4 gap-2 items-end bg-white dark:bg-gray-800 p-4 rounded-lg">
+                <div>
+                  <label class="text-xs font-bold text-gray-600 dark:text-gray-400">Set {{ forloop.counter }}</label>
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-gray-600 dark:text-gray-400">Weight (kg)</label>
+                  <input type="number" 
+                         placeholder="e.g. 60" 
+                         step="0.5" 
+                         min="0"
+                         class="nt-input text-sm">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-gray-600 dark:text-gray-400">Reps</label>
+                  <input type="number" 
+                         placeholder="Reps" 
+                         min="1" 
+                         max="100"
+                         class="nt-input text-sm">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-gray-600 dark:text-gray-400">Notes</label>
+                  <input type="text" 
+                         placeholder="Optional" 
+                         maxlength="50"
+                         class="nt-input text-sm">
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-gray-600 dark:text-gray-400">No exercises defined for this workout. Log custom exercises below.</p>
+        {% endif %}
+
+        <!-- Add Custom Exercise -->
+        <div class="mt-6 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+          <p class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">➕ Log Custom Exercise</p>
+          <div class="grid grid-cols-4 gap-2">
+            <input type="text" placeholder="Exercise name" id="customExerciseName" class="nt-input text-sm" maxlength="100">
+            <input type="number" placeholder="Weight (kg)" id="customWeight" step="0.5" min="0" class="nt-input text-sm">
+            <input type="number" placeholder="Reps" id="customReps" min="1" max="100" class="nt-input text-sm">
+            <button type="button" onclick="addCustomExercise()" class="btn-primary text-sm">Add</button>
+          </div>
+          <div id="customExercisesList" class="mt-3 space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-8">
+        <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">📝 Workout Notes (Optional)</label>
+        <textarea name="notes" placeholder="How did you feel? Any issues?" maxlength="500" rows="3" class="nt-input"></textarea>
+      </div>
+
+      <!-- Hidden field for custom exercises JSON -->
+      <input type="hidden" id="customExercisesJson" name="exercises_json" value="{}">
+
+      <!-- Submit Button -->
+      <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-lg rounded-xl transition-all duration-300 transform hover:shadow-lg active:scale-95">
+        ✅ Log Workout
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .nt-input {
+    @apply block w-full px-3 py-2 border-2 border-gray-200 dark:border-gray-600 rounded-lg font-medium text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200;
+  }
+  .nt-input:focus {
+    @apply border-brand-500 outline-none shadow-md ring-2 ring-brand-200 dark:ring-brand-800;
+  }
+</style>
+
+<script>
+const customExercises = {};
+
+function addCustomExercise() {
+  const name = document.getElementById('customExerciseName').value.trim();
+  const weight = document.getElementById('customWeight').value;
+  const reps = document.getElementById('customReps').value;
+  
+  if (!name || !reps) {
+    alert('Please enter exercise name and reps');
+    return;
+  }
+  
+  if (!customExercises[name]) {
+    customExercises[name] = [];
+  }
+  
+  customExercises[name].push({
+    weight: weight ? parseFloat(weight) : null,
+    reps: parseInt(reps),
+    notes: ''
+  });
+  
+  renderCustomExercises();
+  
+  // Clear inputs
+  document.getElementById('customExerciseName').value = '';
+  document.getElementById('customWeight').value = '';
+  document.getElementById('customReps').value = '';
+}
+
+function renderCustomExercises() {
+  const container = document.getElementById('customExercisesList');
+  container.innerHTML = '';
+  
+  for (const [name, sets] of Object.entries(customExercises)) {
+    const div = document.createElement('div');
+    div.className = 'flex items-center justify-between bg-brand-50 dark:bg-brand-900/20 p-2 rounded text-sm';
+    div.innerHTML = `
+      <span>${name}: ${sets.length} set${sets.length > 1 ? 's' : ''}</span>
+      <button type="button" onclick="removeCustomExercise('${name}')" class="text-red-500 hover:text-red-700">✕</button>
+    `;
+    container.appendChild(div);
+  }
+  
+  document.getElementById('customExercisesJson').value = JSON.stringify(customExercises);
+}
+
+function removeCustomExercise(name) {
+  delete customExercises[name];
+  renderCustomExercises();
+}
+
+// Collect data and convert to JSON format on form submit
+document.getElementById('logWorkoutForm').addEventListener('submit', function(e) {
+  const exercisesData = {};
+  
+  // Collect predefined exercises
+  const exerciseInputs = document.querySelectorAll('.exercise-set');
+  let currentExercise = null;
+  let currentExerciseName = null;
+  
+  exerciseInputs.forEach(function(input, index) {
+    const weight = input.querySelector('input[type="number"][placeholder*="kg"]')?.value;
+    const reps = input.querySelector('input[type="number"][placeholder*="Reps"]')?.value;
+    const notes = input.querySelector('input[type="text"][placeholder*="Optional"]')?.value;
+    
+    // Get exercise name from parent section
+    const parent = input.closest('.mb-8');
+    if (parent) {
+      const nameEl = parent.querySelector('h4');
+      if (nameEl) {
+        currentExerciseName = nameEl.textContent.trim();
+        if (!exercisesData[currentExerciseName]) {
+          exercisesData[currentExerciseName] = [];
+        }
+      }
+    }
+    
+    if (currentExerciseName && reps) {
+      exercisesData[currentExerciseName].push({
+        weight: weight ? parseFloat(weight) : null,
+        reps: parseInt(reps),
+        notes: notes || ''
+      });
+    }
+  });
+  
+  // Add custom exercises
+  Object.assign(exercisesData, customExercises);
+  
+  document.getElementById('customExercisesJson').value = JSON.stringify(exercisesData);
+});
+</script>
+</script>
+{% endblock %}

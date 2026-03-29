@@ -1,0 +1,25 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="nonvegGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E74C3C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A93226;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="url(#nonvegGrad)" opacity="0.15"/>
+  <g transform="translate(100, 100)">
+    <!-- Chicken leg/drumstick -->
+    <ellipse cx="0" cy="-10" rx="12" ry="18" fill="#C0483C" stroke="#A93226" stroke-width="2"/>
+    <!-- Knee joint -->
+    <circle cx="0" cy="12" r="8" fill="#E74C3C" stroke="#A93226" stroke-width="2"/>
+    <!-- Foot -->
+    <g transform="translate(0, 20)">
+      <line x1="-8" y1="0" x2="-8" y2="12" stroke="#A93226" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="0" y2="12" stroke="#A93226" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="8" y1="0" x2="8" y2="12" stroke="#A93226" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    <!-- Meat texture -->
+    <circle cx="-5" cy="-12" r="2.5" fill="#A93226" opacity="0.7"/>
+    <circle cx="6" cy="-5" r="2" fill="#A93226" opacity="0.7"/>
+    <circle cx="-2" cy="5" r="2" fill="#A93226" opacity="0.7"/>
+  </g>
+</svg>

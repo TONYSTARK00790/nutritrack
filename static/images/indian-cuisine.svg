@@ -1,0 +1,26 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="indianGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9933;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <circle cx="100" cy="100" r="95" fill="url(#indianGrad)" opacity="0.15"/>
+  
+  <!-- Spice pot (decorative) -->
+  <g transform="translate(100, 100)">
+    <!-- Pot -->
+    <path d="M -25 -10 Q -35 0, -35 20 L 35 20 Q 35 0, 25 -10 Z" fill="#EA6045" stroke="#C91F16" stroke-width="2"/>
+    <!-- Pot rim -->
+    <ellipse cx="0" cy="-10" rx="25" ry="8" fill="#FF6B35" stroke="#C91F16" stroke-width="2"/>
+    <!-- Steam wisps -->
+    <path d="M -8 -25 Q -5 -35, -2 -45" stroke="#FF9933" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 0 -28 Q 2 -38, 5 -48" stroke="#FF6B35" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 8 -25 Q 12 -35, 15 -45" stroke="#FF9933" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <!-- Spice texture inside -->
+    <circle cx="-12" cy="0" r="4" fill="#FDB750" opacity="0.7"/>
+    <circle cx="8" cy="5" r="3" fill="#FDB750" opacity="0.7"/>
+    <circle cx="0" cy="12" r="3.5" fill="#FDB750" opacity="0.7"/>
+  </g>
+</svg>

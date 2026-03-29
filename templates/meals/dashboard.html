@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+{% load meal_filters %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between fade-up fade-up-1">
+    <div>
+      <h1 class="text-2xl font-bold" style="font-family:'Space Grotesk',sans-serif">
+        Good {% now "H" as hour %}{% if hour|add:"0" < 12 %}morning{% elif hour|add:"0" < 17 %}afternoon{% else %}evening{% endif %}, {{ user.first_name|default:user.username }}! 👋
+      </h1>
+      <p class="text-sm text-muted mt-0.5">{{ today|date:"l, F j, Y" }}</p>
+    </div>
+    <a href="{% url 'meals:add_meal' %}" class="hidden md:inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+       style="background:linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);box-shadow:0 4px 20px rgba(124,58,237,0.4)">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+      Add Meal
+    </a>
+  </div>
+
+  <!-- Top Stats - Flashy & Colorful -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 fade-up fade-up-2">
+    <!-- Calories Consumed -->
+    <div class="nt-card p-4 overflow-hidden relative group cursor-pointer hover:shadow-xl transition-all duration-300"
+         style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);border:none">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" style="background:linear-gradient(135deg, #fff 0%, transparent 100%)"></div>
+      <div class="relative z-10">
+        <div class="text-xs text-white/80 font-bold uppercase tracking-widest mb-2">🔥 Consumed</div>
+        <div class="text-3xl font-black text-white drop-shadow">{{ total_cal|floatformat:0 }}</div>
+        <div class="text-xs text-white/70 font-semibold mt-1">kcal</div>
+      </div>
+      <div class="absolute top-2 right-2 text-3xl opacity-20">🍽️</div>
+    </div>
+
+    <!-- Calories Remaining -->
+    <div class="nt-card p-4 overflow-hidden relative group cursor-pointer hover:shadow-xl transition-all duration-300"
+         style="background:linear-gradient(135deg, {% if remaining < 0 %}#ef4444{% else %}#f97316{% endif %} 0%, {% if remaining < 0 %}#dc2626{% else %}#ea580c{% endif %} 100%);border:none">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" style="background:linear-gradient(135deg, #fff 0%, transparent 100%)"></div>
+      <div class="relative z-10">
+        <div class="text-xs text-white/80 font-bold uppercase tracking-widest mb-2">⚡ Remaining</div>
+        <div class="text-3xl font-black text-white drop-shadow">{{ remaining|floatformat:0 }}</div>
+        <div class="text-xs text-white/70 font-semibold mt-1">of {{ calorie_goal }} kcal</div>
+      </div>
+      <div class="absolute top-2 right-2 text-3xl opacity-20">⚙️</div>
+    </div>
+
+    <!-- Protein -->
+    <div class="nt-card p-4 overflow-hidden relative group cursor-pointer hover:shadow-xl transition-all duration-300"
+         style="background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);border:none">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" style="background:linear-gradient(135deg, #fff 0%, transparent 100%)"></div>
+      <div class="relative z-10">
+        <div class="text-xs text-white/80 font-bold uppercase tracking-widest mb-2">💪 Protein</div>
+        <div class="text-3xl font-black text-white drop-shadow">{{ total_protein|floatformat:0 }}</div>
+        <div class="text-xs text-white/70 font-semibold mt-1">grams today</div>
+      </div>
+      <div class="absolute top-2 right-2 text-3xl opacity-20">🥚</div>
+    </div>
+
+    <!-- Water -->
+    <div class="nt-card p-4 overflow-hidden relative group cursor-pointer hover:shadow-xl transition-all duration-300"
+         style="background:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);border:none">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" style="background:linear-gradient(135deg, #fff 0%, transparent 100%)"></div>
+      <div class="relative z-10">
+        <div class="text-xs text-white/80 font-bold uppercase tracking-widest mb-2">💧 Water</div>
+        <div class="text-3xl font-black text-white drop-shadow">{{ water_intake }}</div>
+        <div class="text-xs text-white/70 font-semibold mt-1">of {{ water_goal }} ml</div>
+      </div>
+      <div class="absolute top-2 right-2 text-3xl opacity-20">🌊</div>
+    </div>
+  </div>
+
+  <!-- Progress + Charts Row -->
+  <div class="grid md:grid-cols-3 gap-4 fade-up fade-up-3">
+    <!-- Calorie Progress -->
+    <div class="nt-card p-5 md:col-span-2">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="font-semibold text-sm uppercase tracking-wide text-muted">Daily Progress</h3>
+          <div class="flex items-end gap-2 mt-1">
+            <span class="text-3xl font-bold" style="font-family:'Space Grotesk',sans-serif;color:var(--nt-green)">{{ total_cal|floatformat:0 }}</span>
+            <span class="text-sm text-muted pb-1">/ {{ calorie_goal }} kcal</span>
+          </div>
+        </div>
+        <span class="text-2xl font-bold" style="color:var(--nt-green)">{{ progress_pct }}%</span>
+      </div>
+      <div class="progress-bar-bg h-4 mb-6">
+        <div class="progress-bar-fill h-4" style="width:{{ progress_pct }}%"></div>
+      </div>
+      <!-- Macro bars -->
+      <div class="grid grid-cols-3 gap-3 text-center">
+        <div>
+          <div class="progress-bar-bg h-2 mb-1"><div style="width:{% widthratio total_protein 1 1 %}%;max-width:100%;height:100%;border-radius:999px;background:#3b82f6"></div></div>
+          <div class="text-sm font-semibold text-blue-500">{{ total_protein|floatformat:0 }}g</div>
+          <div class="text-xs text-muted">Protein</div>
+        </div>
+        <div>
+          <div class="progress-bar-bg h-2 mb-1"><div style="width:min(100%,{{ total_carbs|floatformat:0 }}%);height:100%;border-radius:999px;background:#f97316"></div></div>
+          <div class="text-sm font-semibold text-orange-500">{{ total_carbs|floatformat:0 }}g</div>
+          <div class="text-xs text-muted">Carbs</div>
+        </div>
+        <div>
+          <div class="progress-bar-bg h-2 mb-1"><div style="width:min(100%,{{ total_fat|floatformat:0 }}%);height:100%;border-radius:999px;background:#a855f7"></div></div>
+          <div class="text-sm font-semibold text-purple-500">{{ total_fat|floatformat:0 }}g</div>
+          <div class="text-xs text-muted">Fat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Macro Pie Chart -->
+    <div class="nt-card p-5 flex flex-col items-center justify-center">
+      <h3 class="font-semibold text-sm uppercase tracking-wide text-muted mb-3">Macro Split</h3>
+      <div class="relative" style="height:160px;width:160px">
+        <canvas id="macroPieChart"></canvas>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center">
+            <div class="text-lg font-bold">{{ total_cal|floatformat:0 }}</div>
+            <div class="text-xs text-muted">kcal</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-4 mt-3 text-xs">
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>Protein</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-orange-400 inline-block"></span>Carbs</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-500 inline-block"></span>Fat</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Chart + Water -->
+  <div class="grid md:grid-cols-3 gap-4 fade-up fade-up-4">
+    <!-- Weekly Bar Chart -->
+    <div class="nt-card p-5 md:col-span-2">
+      <h3 class="font-semibold text-sm uppercase tracking-wide text-muted mb-4">Weekly Calories</h3>
+      <div style="height:180px">
+        <canvas id="weeklyChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Water Tracker -->
+    <div class="nt-card p-5">
+      <h3 class="font-bold text-sm uppercase tracking-widest text-transparent bg-clip-text" 
+          style="background:linear-gradient(135deg, #06b6d4, #0891b2)">💧 Water Tracker</h3>
+      <div class="text-center mb-4 mt-4">
+        <span class="text-4xl font-black" style="background:linear-gradient(135deg, #06b6d4, #0891b2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="water-display">{{ water_intake }}</span>
+        <span class="text-sm text-muted"> / {{ water_goal }} ml</span>
+      </div>
+      <div class="progress-bar-bg h-3 mb-4 overflow-hidden rounded-full">
+        <div id="water-bar" class="h-3 rounded-full transition-all duration-700" style="width:{{ water_pct }}%;background:linear-gradient(90deg,#06b6d4,#0891b2,#067a96)"></div>
+      </div>
+      <div class="grid grid-cols-4 gap-1.5">
+        {% for amount in "250,500,750,1000"|split:"," %}
+        <button onclick="addWater({{ amount }})" 
+                class="py-2 rounded-xl text-xs font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-white font-semibold"
+                style="background:linear-gradient(135deg, {% if amount == '250' %}#3b82f6{% elif amount == '500' %}#8b5cf6{% elif amount == '750' %}#ec4899{% else %}#f59e0b{% endif %} 0%, {% if amount == '250' %}#1d4ed8{% elif amount == '500' %}#6d28d9{% elif amount == '750' %}#be185d{% else %}#d97706{% endif %} 100%);">
+          +{{ amount }}
+        </button>
+        {% endfor %}
+      </div>
+      <button onclick="resetWater()" class="w-full mt-3 font-bold py-2.5 rounded-xl transition-all duration-300 transform hover:scale-105" 
+              style="background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%);color:white;box-shadow:0 4px 15px rgba(239,68,68,0.3)">
+        🔄 Reset Water
+      </button>
+    </div>
+  </div>
+
+  <!-- Today's Meals -->
+  <div class="fade-up fade-up-4">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-lg font-bold" style="font-family:'Space Grotesk',sans-serif">Today's Meals</h2>
+      <a href="{% url 'meals:meal_list' %}" class="text-xs text-muted hover:underline">View all →</a>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      {% for meal_key, group in meal_groups.items %}
+      <div class="nt-card p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="nt-badge meal-type-{{ meal_key }}">
+              {% if meal_key == 'breakfast' %}🌅{% elif meal_key == 'lunch' %}☀️{% elif meal_key == 'dinner' %}🌙{% else %}🍎{% endif %}
+              {{ group.label }}
+            </span>
+          </div>
+          <span class="text-sm font-semibold" style="color:var(--nt-green)">{{ group.total_cal|floatformat:0 }} kcal</span>
+        </div>
+        {% if group.meals %}
+        <div class="space-y-2">
+          {% for meal in group.meals %}
+          <div class="flex items-center justify-between p-2 rounded-lg" style="background:var(--nt-surface2)">
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-medium truncate">{{ meal.food.name }}</div>
+              <div class="text-xs text-muted">{{ meal.quantity|floatformat:0 }}g · P:{{ meal.total_protein|floatformat:0 }}g · C:{{ meal.total_carbs|floatformat:0 }}g · F:{{ meal.total_fat|floatformat:0 }}g</div>
+            </div>
+            <div class="flex items-center gap-2 ml-2">
+              <span class="text-sm font-bold" style="color:var(--nt-green)">{{ meal.total_calories|floatformat:0 }}</span>
+              <a href="{% url 'meals:edit_meal' meal.pk %}" class="text-muted hover:text-blue-500 transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </a>
+              <form method="post" action="{% url 'meals:delete_meal' meal.pk %}" class="inline" onsubmit="return confirm('Remove {{ meal.food.name }}?')">
+                {% csrf_token %}
+                <button type="submit" class="text-muted hover:text-red-500 transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-4 text-muted text-sm">No meals logged yet</div>
+        {% endif %}
+              <a href="{% url 'meals:add_meal' %}?meal_type={{ meal_key }}" class="mt-3 flex items-center justify-center gap-1 text-xs font-bold py-2.5 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-white"
+           style="background:linear-gradient(135deg, {% if meal_key == 'breakfast' %}#f59e0b{% elif meal_key == 'lunch' %}#10b981{% elif meal_key == 'dinner' %}#8b5cf6{% else %}#ec4899{% endif %} 0%, {% if meal_key == 'breakfast' %}#d97706{% elif meal_key == 'lunch' %}#059669{% elif meal_key == 'dinner' %}#6d28d9{% else %}#be185d{% endif %} 100%)">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          Add {{ group.label }}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+    <!-- Quick log weight section commented out - weight logging not yet implemented -->
+    {# 
+    <div class="nt-card p-5 fade-up fade-up-4 overflow-hidden relative"
+         style="background:linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%);border:2px solid rgba(139,92,246,0.3)">
+      <div class="absolute top-0 right-0 w-32 h-32 opacity-10" style="background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%238b5cf6%22><path d=%22M13 6v6h6v2h-6v6h-2v-6H5v-2h6V6h2z%22/></svg>');background-size:contain;background-repeat:no-repeat"></div>
+      <div class="relative z-10">
+        <h3 class="font-bold text-sm uppercase tracking-widest text-transparent bg-clip-text mb-4" 
+            style="background:linear-gradient(135deg, #3b82f6, #8b5cf6)">📊 Today's Weight</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Weight logging feature coming soon!</p>
+      </div>
+    </div>
+    #}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const weeklyData = {{ weekly_data|safe }};
+const totalProtein = {{ total_protein }};
+const totalCarbs = {{ total_carbs }};
+const totalFat = {{ total_fat }};
+const calorieGoal = {{ calorie_goal }};
+
+// Macro Pie Chart
+const pieCtx = document.getElementById('macroPieChart').getContext('2d');
+new Chart(pieCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Protein', 'Carbs', 'Fat'],
+    datasets: [{
+      data: [totalProtein || 1, totalCarbs || 1, totalFat || 1],
+      backgroundColor: ['#3b82f6', '#f97316', '#a855f7'],
+      borderWidth: 0,
+      hoverOffset: 8,
+    }]
+  },
+  options: {
+    cutout: '72%',
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}g` } } },
+    animation: { duration: 900, easing: 'easeInOutQuart' }
+  }
+});
+
+// Weekly Bar Chart
+const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+const weekCtx = document.getElementById('weeklyChart').getContext('2d');
+const gradient = weekCtx.createLinearGradient(0, 0, 0, 180);
+gradient.addColorStop(0, 'rgba(34,197,94,0.8)');
+gradient.addColorStop(1, 'rgba(34,197,94,0.1)');
+
+new Chart(weekCtx, {
+  type: 'bar',
+  data: {
+    labels: weeklyData.map(d => d.date),
+    datasets: [{
+      label: 'Calories',
+      data: weeklyData.map(d => d.calories),
+      backgroundColor: weeklyData.map((d,i) => i === 6 ? '#22c55e' : gradient),
+      borderRadius: 8,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.raw} kcal` } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 11 } } },
+      y: {
+        grid: { color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+        ticks: { color: '#64748b', font: { size: 11 } },
+      }
+    },
+    animation: { duration: 700 }
+  }
+});
+
+// Water tracking
+let currentWater = {{ water_intake }};
+const waterGoal = {{ water_goal }};
+
+function updateWaterUI(amount) {
+  currentWater = Math.max(0, amount);
+  document.getElementById('water-display').textContent = currentWater;
+  const pct = Math.min(100, (currentWater / waterGoal) * 100);
+  document.getElementById('water-bar').style.width = pct + '%';
+}
+
+function addWater(amount) {
+  const newAmount = currentWater + amount;
+  fetch('/meals/water/update/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': '{{ csrf_token }}'},
+    body: `amount_ml=${newAmount}`
+  }).then(r => r.json()).then(d => { if (d.success) updateWaterUI(d.amount_ml); });
+}
+
+function resetWater() {
+  fetch('/meals/water/update/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': '{{ csrf_token }}'},
+    body: 'amount_ml=0'
+  }).then(r => r.json()).then(d => { if (d.success) updateWaterUI(0); });
+}
+</script>
+{% endblock %}

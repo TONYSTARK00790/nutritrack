@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ workout.name }}{% endblock %}
+{% block content %}
+<div class="p-6 max-w-3xl mx-auto">
+  <h1 class="font-display text-2xl font-bold mb-2">{{ workout.name }}</h1>
+  <p class="text-sm text-gray-500 mb-4">{{ workout.get_workout_type_display }} · {{ workout.duration_min }} minutes</p>
+  <div class="space-y-3">
+    {% for ex in workout.exercises.all %}
+    <div class="p-3 nt-card">
+      <div class="flex justify-between items-center">
+        <div>
+          <div class="font-semibold">{{ ex.name }}</div>
+          <div class="text-xs text-gray-500">{{ ex.description }}</div>
+        </div>
+        <div class="text-xs text-gray-600">Sets: {{ ex.sets }} · Reps: {{ ex.reps }}</div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No exercises added to this workout.</p>
+    {% endfor %}
+  </div>
+  <form method="post" action="{% url 'workouts:start' workout.pk %}">
+    {% csrf_token %}
+    <button class="btn-primary mt-6">Start Workout</button>
+  </form>
+</div>
+{% endblock %}

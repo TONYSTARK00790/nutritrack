@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Meal{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+  <div class="mb-6 fade-up fade-up-1">
+    <a href="{% url 'dashboard' %}" class="text-sm text-muted hover:underline">← Back to Dashboard</a>
+    <h1 class="text-2xl font-bold mt-2" style="font-family:'Space Grotesk',sans-serif">{{ action }} Meal</h1>
+  </div>
+
+  <div class="nt-card p-6 fade-up fade-up-2">
+    <form method="post" id="meal-form">
+      {% csrf_token %}
+      
+      <div class="space-y-4">
+        <div>
+          <label class="nt-label">Food Item</label>
+          {{ form.food }}
+          {% if form.food.errors %}<p class="text-xs text-red-500 mt-1">{{ form.food.errors.0 }}</p>{% endif %}
+        </div>
+
+        <!-- Live preview card -->
+        <div id="food-preview" class="hidden p-3 rounded-xl text-sm" style="background:var(--nt-green-light)">
+          <div class="font-semibold mb-1 text-green-800" id="preview-name"></div>
+          <div class="grid grid-cols-4 gap-2 text-xs text-green-700">
+            <div class="text-center"><div class="font-bold text-base" id="preview-cal">—</div><div>kcal</div></div>
+            <div class="text-center"><div class="font-bold text-base" id="preview-protein">—</div><div>Protein g</div></div>
+            <div class="text-center"><div class="font-bold text-base" id="preview-carbs">—</div><div>Carbs g</div></div>
+            <div class="text-center"><div class="font-bold text-base" id="preview-fat">—</div><div>Fat g</div></div>
+          </div>
+          <div class="text-xs text-green-600 mt-1">per 100g</div>
+        </div>
+
+        <div>
+          <label class="nt-label">Quantity (grams)</label>
+          {{ form.quantity }}
+          {% if form.quantity.errors %}<p class="text-xs text-red-500 mt-1">{{ form.quantity.errors.0 }}</p>{% endif %}
+        </div>
+
+        <!-- Calculated totals -->
+        <div id="calc-preview" class="hidden p-3 rounded-xl" style="background:var(--nt-surface2);border:1.5px solid var(--nt-border)">
+          <div class="text-xs text-muted font-semibold uppercase tracking-wide mb-2">Calculated Nutrition</div>
+          <div class="grid grid-cols-4 gap-2 text-center text-sm">
+            <div><div class="font-bold text-lg" style="color:var(--nt-green)" id="calc-cal">—</div><div class="text-xs text-muted">kcal</div></div>
+            <div><div class="font-bold text-lg text-blue-500" id="calc-protein">—</div><div class="text-xs text-muted">Protein</div></div>
+            <div><div class="font-bold text-lg text-orange-500" id="calc-carbs">—</div><div class="text-xs text-muted">Carbs</div></div>
+            <div><div class="font-bold text-lg text-purple-500" id="calc-fat">—</div><div class="text-xs text-muted">Fat</div></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="nt-label">Meal Type</label>
+            {{ form.meal_type }}
+          </div>
+          <div>
+            <label class="nt-label">Date</label>
+            {{ form.date }}
+          </div>
+        </div>
+
+        <div>
+          <label class="nt-label">Notes (optional)</label>
+          {{ form.notes }}
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button type="submit" class="nt-btn nt-btn-primary flex-1 justify-center py-3">
+          {% if action|lower == 'edit' %}Tweak & Flex ✏️{% else %}LFG — Log the Noms ✅{% endif %}
+        </button>
+        <a href="{% url 'dashboard' %}" class="nt-btn nt-btn-outline">Big Oof (Cancel) 🙃</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-4 nt-card p-4 fade-up fade-up-3">
+    <p class="text-sm text-muted">Can't find your food? <a href="{% url 'meals:add_food' %}" class="font-semibold" style="color:var(--nt-green)">Add it to the database →</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const foodSelect = document.getElementById('food-select');
+const qtyInput = document.querySelector('input[name="quantity"]');
+let currentFood = null;
+
+foodSelect.addEventListener('change', function() {
+  const foodId = this.value;
+  if (!foodId) { hidePreview(); return; }
+  fetch(`/meals/foods/${foodId}/api/`)
+    .then(r => r.json())
+    .then(food => {
+      currentFood = food;
+      document.getElementById('food-preview').classList.remove('hidden');
+      document.getElementById('preview-name').textContent = food.name;
+      document.getElementById('preview-cal').textContent = food.calories_per_100g;
+      document.getElementById('preview-protein').textContent = food.protein;
+      document.getElementById('preview-carbs').textContent = food.carbs;
+      document.getElementById('preview-fat').textContent = food.fat;
+      updateCalc();
+    });
+});
+
+qtyInput.addEventListener('input', updateCalc);
+
+function updateCalc() {
+  if (!currentFood || !qtyInput.value) { return; }
+  const q = parseFloat(qtyInput.value);
+  if (isNaN(q) || q <= 0) return;
+  const f = q / 100;
+  document.getElementById('calc-preview').classList.remove('hidden');
+  document.getElementById('calc-cal').textContent = (currentFood.calories_per_100g * f).toFixed(1);
+  document.getElementById('calc-protein').textContent = (currentFood.protein * f).toFixed(1) + 'g';
+  document.getElementById('calc-carbs').textContent = (currentFood.carbs * f).toFixed(1) + 'g';
+  document.getElementById('calc-fat').textContent = (currentFood.fat * f).toFixed(1) + 'g';
+}
+
+function hidePreview() {
+  document.getElementById('food-preview').classList.add('hidden');
+  document.getElementById('calc-preview').classList.add('hidden');
+  currentFood = null;
+}
+
+// Pre-select meal type from URL param
+const urlParams = new URLSearchParams(window.location.search);
+const mealType = urlParams.get('meal_type');
+if (mealType) {
+  const select = document.querySelector('select[name="meal_type"]');
+  if (select) select.value = mealType;
+}
+</script>
+{% endblock %}

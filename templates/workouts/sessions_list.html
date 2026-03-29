@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}My Scheduled Workouts{% endblock %}
+{% block content %}
+<div class="p-6 max-w-3xl mx-auto">
+  <h1 class="font-display text-2xl font-bold mb-4">My Scheduled Workouts</h1>
+
+  {% if sessions %}
+  <div class="space-y-3">
+    {% for s in sessions %}
+    <div id="session-{{ s.pk }}" class="p-4 nt-card flex justify-between items-center">
+      <div>
+        <div class="font-semibold">{{ s.workout.name }}</div>
+        <div class="text-xs text-gray-500">Scheduled: {{ s.scheduled_at|date:"SHORT_DATETIME_FORMAT" }}</div>
+        <div class="text-xs text-gray-500">Type: {{ s.workout.get_workout_type_display }} · {{ s.workout.duration_min }} min</div>
+      </div>
+      <div class="text-right">
+        {% if s.completed %}
+        <div class="text-sm text-green-600 font-semibold">Completed</div>
+        <div class="text-xs text-gray-500">{{ s.completed_at|date:"SHORT_DATETIME_FORMAT" }}</div>
+        {% else %}
+        <button class="btn-primary mark-complete" data-session-pk="{{ s.pk }}">Mark Complete</button>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>You have no scheduled workouts. Browse <a href="{% url 'workouts:list' %}">workouts</a> to start one.</p>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  function getCsrfToken() {
+    const cookie = document.cookie.split(';').map(c=>c.trim()).find(c=>c.startsWith('csrftoken='));
+    return cookie ? cookie.split('=')[1] : '';
+  }
+
+  document.querySelectorAll('.mark-complete').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      const pk = this.dataset.sessionPk;
+      const url = new URL("/workouts/sessions/complete/" + pk + "/", window.location.origin).pathname;
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCsrfToken(),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({})
+      }).then(r=>r.json()).then(data=>{
+        if(data.status === 'ok'){
+          const container = document.getElementById('session-' + data.pk);
+          if(container){
+            container.querySelector('.text-right').innerHTML = '<div class="text-sm text-green-600 font-semibold">Completed</div>';
+          }
+        }
+      }).catch(err=>{
+        console.error('Failed to mark complete', err);
+        window.location.reload();
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

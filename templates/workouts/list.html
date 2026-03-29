@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Workouts{% endblock %}
+{% block content %}
+<div class="p-6 max-w-4xl mx-auto">
+  <h1 class="font-display text-2xl font-bold mb-4">Workouts</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% for w in workouts %}
+    <a href="{% url 'workouts:detail' w.pk %}" class="nt-card p-4 hover:shadow-xl transition-all">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="font-semibold">{{ w.name }}</h3>
+          <p class="text-xs text-gray-500 mt-1">{{ w.get_workout_type_display }} · {{ w.duration_min }} min</p>
+        </div>
+        <div class="text-sm text-gray-400">&rsaquo;</div>
+      </div>
+    </a>
+    {% empty %}
+    <p>No workouts found.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

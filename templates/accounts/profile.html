@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-4xl mx-auto">
+  <div class="mb-8">
+    <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white">My Profile</h1>
+    <p class="text-gray-500 text-sm mt-1">Manage your account and fitness goals</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Profile Summary Card -->
+    <div class="nt-card p-6 text-center">
+      <div class="w-20 h-20 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white font-display font-bold text-2xl mx-auto mb-4">
+        {{ request.user.first_name.0|upper }}{{ request.user.last_name.0|upper }}
+      </div>
+      <h2 class="font-display font-bold text-xl text-gray-900 dark:text-white">{{ request.user.get_full_name|default:request.user.username }}</h2>
+      <p class="text-gray-500 text-sm">{{ request.user.email }}</p>
+      
+      {% if profile.bmi %}
+      <div class="mt-5 grid grid-cols-2 gap-3">
+        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3">
+          <p class="font-display text-xl font-bold text-gray-800 dark:text-white">{{ profile.bmi }}</p>
+          <p class="text-xs text-gray-500">BMI</p>
+          <p class="text-xs font-medium text-brand-600 mt-0.5">{{ profile.bmi_category }}</p>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3">
+          <p class="font-display text-xl font-bold text-gray-800 dark:text-white">{{ profile.weight|floatformat:1 }}</p>
+          <p class="text-xs text-gray-500">kg</p>
+          <p class="text-xs text-gray-400">Weight</p>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if targets %}
+      <div class="mt-4 p-4 bg-brand-50 dark:bg-brand-900/20 rounded-xl text-left">
+        <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-wider mb-2">Calorie Targets</p>
+        <div class="space-y-1.5 text-sm">
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-gray-400">Maintenance</span><span class="font-semibold">{{ targets.maintenance }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-gray-400">Fat Loss</span><span class="font-semibold text-blue-600">{{ targets.fat_loss }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-gray-400">Muscle Gain</span><span class="font-semibold text-green-600">{{ targets.muscle_gain }}</span></div>
+        </div>
+      </div>
+      {% endif %}
+      {% if workouts %}
+      <div class="mt-4 p-4 bg-white dark:bg-gray-800 rounded-xl text-left">
+        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Suggested Workouts</p>
+        <div class="space-y-4">
+          <div class="text-sm text-gray-500">Preferred type: <strong>{{ profile.get_preferred_workout_type_display }}</strong></div>
+          {% for w in workouts %}
+          <div class="p-3 rounded-lg border border-gray-100 dark:border-gray-700 flex items-start justify-between">
+            <div>
+              <div class="font-semibold">{{ w.name }} <span class="text-xs text-gray-400">· {{ w.intensity }}</span></div>
+              <div class="text-xs text-gray-500">{{ w.desc }}</div>
+              <div class="text-xs text-gray-400 mt-1">{{ w.duration_min }} min</div>
+            </div>
+            <div class="flex flex-col items-end">
+              <a href="{% url 'workouts:list' %}" class="btn-secondary px-3 py-2 text-xs">Browse</a>
+              <a href="#" class="text-xs text-gray-400 mt-1">Details</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div class="lg:col-span-2 nt-card p-6">
+      <h3 class="font-display font-semibold text-gray-800 dark:text-white text-lg mb-5">Edit Profile</h3>
+      <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Age</label>
+            {{ form.age }}
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Gender</label>
+            {{ form.gender }}
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Height (cm)</label>
+            {{ form.height }}
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Weight (kg)</label>
+            {{ form.weight }}
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Activity Level</label>
+          {{ form.activity_level }}
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Goal</label>
+          {{ form.goal }}
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Daily Calorie Goal (override)</label>
+          {{ form.calorie_goal }}
+          <p class="text-xs text-gray-400 mt-1">Leave blank to auto-calculate from your stats</p>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="btn-primary flex-1">Save Changes</button>
+          <a href="{% url 'calculator' %}" class="btn-secondary flex-1 text-center">Use Calculator</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

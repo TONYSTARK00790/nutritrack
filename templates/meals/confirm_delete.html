@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+  <div class="nt-card p-8 text-center fade-up fade-up-1">
+    <div class="text-5xl mb-4">🗑️</div>
+    <h2 class="text-xl font-bold mb-2" style="font-family:'Space Grotesk',sans-serif">Remove Meal?</h2>
+    <p class="text-muted mb-2">Are you sure you want to remove:</p>
+    <div class="p-3 rounded-xl mb-6" style="background:var(--nt-surface2)">
+      <div class="font-semibold">{{ meal.food.name }}</div>
+      <div class="text-sm text-muted">{{ meal.quantity }}g · {{ meal.total_calories|floatformat:0 }} kcal · {{ meal.date }}</div>
+    </div>
+    <form method="post" class="flex gap-3 justify-center">
+      {% csrf_token %}
+      <button type="submit" class="nt-btn nt-btn-danger">Bye Felicia 🗑️</button>
+      <a href="{% url 'dashboard' %}" class="nt-btn nt-btn-outline">Big Oof (Cancel) 🙃</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

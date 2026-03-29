@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Meal History{% endblock %}
+
+{% block content %}
+<div class="space-y-5">
+  <div class="fade-up fade-up-1 flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold" style="font-family:'Space Grotesk',sans-serif">Meal History</h1>
+      <p class="text-sm text-muted">{{ meals|length }} meals logged</p>
+    </div>
+    <a href="{% url 'meals:add_meal' %}" class="nt-btn nt-btn-primary">+ Add Meal</a>
+  </div>
+
+  {% regroup meals by date as meals_by_date %}
+  {% for day in meals_by_date %}
+  <div class="nt-card overflow-hidden fade-up fade-up-2">
+    <div class="px-5 py-3 flex items-center justify-between border-b divider" style="background:var(--nt-surface2)">
+      <h3 class="font-bold text-sm" style="font-family:'Space Grotesk',sans-serif">
+        {{ day.grouper|date:"l, F j, Y" }}
+        {% if day.grouper == today %}<span class="nt-badge bg-green-100 text-green-700 ml-2">Today</span>{% endif %}
+      </h3>
+      <span class="text-sm font-semibold" style="color:var(--nt-green)">
+        {% with total=0 %}
+        {% for m in day.list %}{% endfor %}
+        Total: {{ day.list|length }} meals
+        {% endwith %}
+      </span>
+    </div>
+    <div class="divide-y divider">
+      {% for meal in day.list %}
+      <div class="flex items-center justify-between px-5 py-3 hover:bg-green-50 transition-colors">
+        <div class="flex items-center gap-3">
+          <span class="nt-badge meal-type-{{ meal.meal_type }} text-xs w-20 justify-center">{{ meal.get_meal_type_display }}</span>
+          <div>
+            <div class="font-medium text-sm">{{ meal.food.name }}</div>
+            <div class="text-xs text-muted">{{ meal.quantity|floatformat:0 }}g · P:{{ meal.total_protein|floatformat:0 }}g · C:{{ meal.total_carbs|floatformat:0 }}g · F:{{ meal.total_fat|floatformat:0 }}g</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-sm" style="color:var(--nt-green)">{{ meal.total_calories|floatformat:0 }} kcal</span>
+          <a href="{% url 'meals:edit_meal' meal.pk %}" class="text-muted hover:text-blue-500 transition-colors p-1">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          </a>
+          <form method="post" action="{% url 'meals:delete_meal' meal.pk %}" class="inline" onsubmit="return confirm('Delete this meal?')">
+            {% csrf_token %}
+            <button type="submit" class="text-muted hover:text-red-500 transition-colors p-1">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% empty %}
+  <div class="nt-card p-12 text-center fade-up fade-up-2">
+    <div class="text-5xl mb-4">🥗</div>
+    <h3 class="text-lg font-bold mb-2">No meals logged yet</h3>
+    <p class="text-muted text-sm mb-4">Start tracking your meals to see your nutrition history</p>
+    <a href="{% url 'meals:add_meal' %}" class="nt-btn nt-btn-primary">Log Your First Meal</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

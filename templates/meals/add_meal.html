@@ -1,0 +1,630 @@
+{% extends "base.html" %}
+{% load meal_filters %}
+{% block title %}Log Meal{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-4 md:p-6 pb-24">
+  <!-- Header -->
+  <div class="mb-8">
+    <a href="{% url 'meals:meal_list' %}" class="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-brand-500 transition mb-4 group">
+      <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      <span>Back</span>
+    </a>
+    <div class="space-y-2">
+      <h1 class="font-display text-4xl font-bold bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent">📝 Log Your Meal</h1>
+      <p class="text-gray-600 dark:text-gray-400">Record what you eat in grams and track your nutrition</p>
+    </div>
+  </div>
+
+  <form method="POST" id="mealForm" class="space-y-6">
+    {% csrf_token %}
+
+    <div class="nt-card p-6">
+      <!-- Date & Meal Type -->
+      {% if not edit %}
+      <div class="grid md:grid-cols-2 gap-4 mb-8 p-5 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-900 dark:to-slate-800 rounded-xl border border-blue-100 dark:border-slate-700">
+        <div>
+          <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">📅 Date</label>
+          {{ form.date }}
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">🍽️ Meal Type</label>
+          {{ form.meal_type }}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Select Food with Image Display -->
+      <div class="mb-8">
+        <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">🔍 Choose a Food</label>
+        
+        <div class="grid md:grid-cols-3 gap-4">
+          <!-- Left: Search & Dropdown -->
+          <div class="md:col-span-2 relative z-50">
+            <div class="relative overflow-visible">
+              <input type="text" id="foodSearch" class="nt-input w-full mb-2" placeholder="Search food (eg: Biryani, Paneer, Chicken)..." autocomplete="off">
+              <div id="foodDropdown" class="hidden"></div>
+            </div>
+            
+            <div>{{ form.food }}</div>
+          </div>
+          
+          <!-- Right: Empty for spacing (looks clean) -->
+          <div></div>
+        </div>
+      </div>
+
+      <!-- Quantity in Grams -->
+      <div class="mb-8">
+        <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">⚖️ Quantity (in grams)</label>
+        <div class="flex gap-2 items-center mb-4">
+          <div class="flex-1">{{ form.quantity }}</div>
+          <span class="px-3 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg font-bold text-gray-700 dark:text-gray-300">g</span>
+        </div>
+        
+        <!-- Quick Amount Buttons - Better spacing -->
+        <p class="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-3">Quick Select</p>
+        <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+          <button type="button" onclick="setQuantity('25')" class="quick-btn">25g</button>
+          <button type="button" onclick="setQuantity('50')" class="quick-btn">50g</button>
+          <button type="button" onclick="setQuantity('75')" class="quick-btn">75g</button>
+          <button type="button" onclick="setQuantity('100')" class="quick-btn">100g</button>
+          <button type="button" onclick="setQuantity('150')" class="quick-btn">150g</button>
+          <button type="button" onclick="setQuantity('200')" class="quick-btn">200g</button>
+          <button type="button" onclick="setQuantity('250')" class="quick-btn">250g</button>
+          <button type="button" onclick="setQuantity('300')" class="quick-btn">300g</button>
+        </div>
+      </div>
+
+      <!-- Live Calorie Preview - Enhanced styling -->
+      <div class="p-6 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-900/20 dark:via-green-900/20 dark:to-teal-900/20 border-2 border-emerald-300 dark:border-emerald-700 rounded-2xl mb-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+        <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest mb-4">Nutrition Summary</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-3 rounded-xl text-center">
+            <p class="font-display text-2xl font-bold text-green-600 dark:text-green-400" id="calPreview">—</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Calories</p>
+          </div>
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-3 rounded-xl text-center">
+            <p class="font-display text-2xl font-bold text-blue-600 dark:text-blue-400" id="proPreview">—</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Protein (g)</p>
+          </div>
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-3 rounded-xl text-center">
+            <p class="font-display text-2xl font-bold text-amber-600 dark:text-amber-400" id="carbPreview">—</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Carbs (g)</p>
+          </div>
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-3 rounded-xl text-center">
+            <p class="font-display text-2xl font-bold text-red-600 dark:text-red-400" id="fatPreview">—</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Fat (g)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-8">
+        <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">📝 Notes (Optional)</label>
+        {{ form.notes }}
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-lg rounded-xl transition-all duration-300 transform hover:shadow-lg active:scale-95">
+        ✅ Log This Meal
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  /* ===== GLOBAL OVERRIDE FOR DROPDOWN ===== */
+  #foodDropdown,
+  #foodDropdown *,
+  .food-item,
+  .food-item * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .nt-input {
+    @apply block w-full px-4 py-3 border-2 border-gray-200 rounded-lg font-medium text-gray-800 placeholder-gray-400 transition-all duration-200;
+  }
+  .nt-input:focus {
+    @apply border-brand-500 outline-none shadow-md ring-2 ring-brand-200 dark:ring-brand-800;
+  }
+  .nt-input:hover:not(:focus) {
+    @apply border-gray-300;
+  }
+  .dark .nt-input {
+    @apply bg-gray-700 text-white border-gray-600 placeholder-gray-500;
+  }
+  .dark .nt-input:focus {
+    @apply border-brand-500 ring-brand-800;
+  }
+  
+  .quick-btn {
+    @apply py-2 px-3 text-sm font-bold rounded-lg transition-all duration-200;
+    @apply bg-gradient-to-b from-brand-100 to-brand-50 dark:from-brand-900/40 dark:to-brand-900/20;
+    @apply border-2 border-brand-300 dark:border-brand-700;
+    @apply text-brand-700 dark:text-brand-400;
+    @apply hover:shadow-md hover:scale-105 active:scale-95;
+    @apply hover:border-brand-400 dark:hover:border-brand-600;
+  }
+  .quick-btn:active {
+    @apply ring-2 ring-brand-300 dark:ring-brand-700;
+  }
+  
+  .nt-card {
+    @apply bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+  
+  #foodDropdown {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    background: white !important;
+    border: 2px solid #000 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 100% !important;
+    pointer-events: auto !important;
+    transition: none !important;
+    animation: none !important;
+    min-height: auto !important;
+  }
+
+  .dark #foodDropdown {
+    background: #1f2937 !important;
+    border-color: #444 !important;
+  }
+  
+  #foodDropdown.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .food-item {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px !important;
+    gap: 12px !important;
+    border-bottom: 1px solid #eee !important;
+    cursor: pointer !important;
+    background: #ffffff !important;
+    min-height: 70px !important;
+    height: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: none !important;
+    z-index: 51 !important;
+    animation: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .dark .food-item {
+    background: #1f2937 !important;
+    border-bottom-color: #333 !important;
+  }
+
+  .food-item:last-child {
+    border-bottom: none !important;
+  }
+
+  .food-item:hover,
+  .food-item:focus,
+  .food-item:active {
+    background: #f0f0f0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 52 !important;
+    pointer-events: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .dark .food-item:hover,
+  .dark .food-item:focus,
+  .dark .food-item:active {
+    background: #2d3748 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .food-item:active {
+    background: #e5e7eb !important;
+  }
+
+  .dark .food-item:active {
+    background: #4b5563 !important;
+  }
+
+  .food-item-img {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 6px !important;
+    object-fit: cover !important;
+    flex-shrink: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: none !important;
+  }
+
+  .food-item-placeholder {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 6px !important;
+    background: #e5e7eb !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 24px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: none !important;
+  }
+
+  .dark .food-item-placeholder {
+    background: #4b5563 !important;
+  }
+
+  .food-item-text {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .food-item-name {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    margin: 0 0 4px 0 !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .food-item:hover .food-item-name,
+  .food-item:focus .food-item-name,
+  .food-item:active .food-item-name {
+    color: #000000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .dark .food-item-name {
+    color: #ffffff !important;
+  }
+
+  .dark .food-item:hover .food-item-name,
+  .dark .food-item:focus .food-item-name,
+  .dark .food-item:active .food-item-name {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .food-item-nutrition {
+    font-size: 12px !important;
+    color: #555555 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .food-item:hover .food-item-nutrition,
+  .food-item:focus .food-item-nutrition,
+  .food-item:active .food-item-nutrition {
+    color: #555555 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .dark .food-item-nutrition {
+    color: #9ca3af !important;
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const foodData = {};
+  {% for food in foods %}
+  foodData[{{ food.id }}] = {
+    name: "{{ food.name|escapejs }}",
+    cal: {{ food.calories_per_100g }},
+    pro: {{ food.protein }},
+    carb: {{ food.carbs }},
+    fat: {{ food.fat }},
+    image: "{% if food.image %}{{ food.image.url }}{% endif %}",
+  };
+  {% endfor %}
+
+  const allFoods = Object.entries(foodData).map(([id, d]) => ({id: parseInt(id), ...d}));
+  const foodSelect = document.getElementById('id_food');
+  const foodSearch = document.getElementById('foodSearch');
+  const quantityInput = document.getElementById('id_quantity');
+  const dropdown = document.getElementById('foodDropdown');
+  
+  let isDropdownOpen = false;
+
+  // Real-time search with image display in dropdown
+  foodSearch.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    
+    if (q.length < 1) {
+      dropdown.classList.add('hidden');
+      dropdown.innerHTML = '';
+      isDropdownOpen = false;
+      return;
+    }
+    
+    const results = allFoods.filter(f => f.name.toLowerCase().includes(q)).slice(0, 12);
+    
+    if (results.length === 0) {
+      dropdown.innerHTML = '<div class="px-4 py-3 text-center text-gray-500">No foods matching "' + q + '"</div>';
+      dropdown.classList.remove('hidden');
+      isDropdownOpen = true;
+      return;
+    }
+    
+    // Build dropdown items with images
+    let html = '';
+    results.forEach(f => {
+      html += `
+        <div class="food-item"
+             data-id="${f.id}" data-name="${f.name.replace(/"/g, '&quot;')}">
+          ${f.image ? `<img src="${f.image}" alt="${f.name}" class="food-item-img">` : `<div class="food-item-placeholder">🍽️</div>`}
+          <div class="food-item-text">
+            <p class="food-item-name">${f.name}</p>
+            <p class="food-item-nutrition">${f.cal.toFixed(0)} cal · P:${f.pro}g C:${f.carb}g F:${f.fat}g</p>
+          </div>
+        </div>
+      `;
+    });
+    
+    dropdown.innerHTML = html;
+    dropdown.classList.remove('hidden');
+    isDropdownOpen = true;
+    
+    // Attach handlers to food items
+    document.querySelectorAll('.food-item').forEach(item => {
+      item.addEventListener('click', handleFoodItemClick);
+    });
+  });
+  
+  function handleFoodItemClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const id = this.dataset.id;
+    const name = this.dataset.name;
+    selectFood(parseInt(id), name);
+  }
+
+  function selectFood(id, name) {
+    foodSelect.value = id;
+    foodSearch.value = name;
+    dropdown.classList.add('hidden');
+    dropdown.innerHTML = '';
+    isDropdownOpen = false;
+    updatePreview();
+    if (quantityInput) quantityInput.focus();
+  }
+
+  function setQuantity(qty) {
+    if (quantityInput) {
+      quantityInput.value = qty;
+      updatePreview();
+    }
+  }
+
+  function updatePreview() {
+    const foodId = foodSelect.value;
+    const qty = parseFloat(quantityInput.value) || 0;
+    
+    if (!foodId || qty <= 0) {
+      document.getElementById('calPreview').textContent = '—';
+      document.getElementById('proPreview').textContent = '—';
+      document.getElementById('carbPreview').textContent = '—';
+      document.getElementById('fatPreview').textContent = '—';
+      return;
+    }
+    
+    if (foodData[foodId]) {
+      const f = foodData[foodId];
+      const factor = qty / 100;
+      
+      document.getElementById('calPreview').textContent = Math.round(f.cal * factor);
+      document.getElementById('proPreview').textContent = (f.pro * factor).toFixed(1);
+      document.getElementById('carbPreview').textContent = (f.carb * factor).toFixed(1);
+      document.getElementById('fatPreview').textContent = (f.fat * factor).toFixed(1);
+    }
+  }
+
+  foodSelect.addEventListener('change', updatePreview);
+  quantityInput.addEventListener('input', updatePreview);
+
+  // ========== AGGRESSIVE VISIBILITY LOCK ==========
+  let mouseOverDropdown = false;
+  let dropdownLocked = false;
+
+  // Attach event listeners to ensure visibility
+  dropdown.addEventListener('mouseenter', function(e) {
+    console.log('🔒 Mouse entered dropdown');
+    mouseOverDropdown = true;
+    dropdownLocked = true;
+    forceDropdownVisible();
+  });
+  
+  dropdown.addEventListener('mouseleave', function(e) {
+    console.log('👋 Mouse left dropdown');
+    mouseOverDropdown = false;
+  });
+  
+  foodSearch.addEventListener('mouseenter', function() {
+    mouseOverDropdown = true;
+  });
+  
+  foodSearch.addEventListener('mouseleave', function() {
+    if (!dropdown.contains(event.relatedTarget)) {
+      mouseOverDropdown = false;
+    }
+  });
+
+  function forceDropdownVisible() {
+    if (!isDropdownOpen || dropdown.classList.contains('hidden')) return;
+    
+    console.log('🔓 Forcing dropdown visible');
+    
+    // Force dropdown itself
+    dropdown.style.cssText = `
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      z-index: 9999 !important;
+    `;
+    dropdown.classList.remove('hidden');
+    
+    // Force every food item visible
+    const items = document.querySelectorAll('.food-item');
+    console.log(`📦 Locking ${items.length} items`);
+    
+    items.forEach((item, idx) => {
+      item.style.cssText = `
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        z-index: ${9000 + idx} !important;
+        background: white !important;
+      `;
+      
+      // Force text elements
+      const nameEl = item.querySelector('.food-item-name');
+      const nutEl = item.querySelector('.food-item-nutrition');
+      const imgEl = item.querySelector('.food-item-img');
+      const placeholderEl = item.querySelector('.food-item-placeholder');
+      
+      if (nameEl) {
+        nameEl.style.cssText = `
+          opacity: 1 !important;
+          visibility: visible !important;
+          color: #000 !important;
+        `;
+      }
+      if (nutEl) {
+        nutEl.style.cssText = `
+          opacity: 1 !important;
+          visibility: visible !important;
+          color: #555 !important;
+        `;
+      }
+      if (imgEl) {
+        imgEl.style.cssText = `
+          opacity: 1 !important;
+          visibility: visible !important;
+        `;
+      }
+      if (placeholderEl) {
+        placeholderEl.style.cssText = `
+          opacity: 1 !important;
+          visibility: visible !important;
+        `;
+      }
+    });
+  }
+
+  // Monitor ALL mouse movements to lock visibility
+  document.addEventListener('mousemove', function(e) {
+    if (isDropdownOpen && !dropdown.classList.contains('hidden')) {
+      forceDropdownVisible();
+    }
+  });
+
+  // Close dropdown only when clicking far away
+  document.addEventListener('click', function(e) {
+    if (!isDropdownOpen) return;
+    
+    const isSearchClick = foodSearch.contains(e.target);
+    const isDropdownClick = dropdown.contains(e.target);
+    
+    if (!isSearchClick && !isDropdownClick && !mouseOverDropdown) {
+      console.log('❌ Closing dropdown - clicked outside');
+      dropdown.classList.add('hidden');
+      dropdown.innerHTML = '';
+      isDropdownOpen = false;
+      dropdownLocked = false;
+    }
+  });
+
+  // ESC key to close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isDropdownOpen) {
+      console.log('🔌 ESC - Closing dropdown');
+      dropdown.classList.add('hidden');
+      dropdown.innerHTML = '';
+      isDropdownOpen = false;
+      dropdownLocked = false;
+    }
+  });
+
+  // Initialize if food is already selected
+  if (foodSelect.value && foodData[foodSelect.value]) {
+    foodSearch.value = foodData[foodSelect.value].name;
+    updatePreview();
+  }
+
+  // ========== ULTRA-AGGRESSIVE CONTINUOUS MONITOR ==========
+  // Runs every 20ms (50 times per second) to catch any CSS/JS that hides items
+  setInterval(function() {
+    if (isDropdownOpen && dropdown && !dropdown.classList.contains('hidden')) {
+      forceDropdownVisible();
+    }
+  }, 20);
+</script>
+{% endblock %}

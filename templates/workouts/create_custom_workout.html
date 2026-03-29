@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Create Custom Workout{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-2xl mx-auto">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="font-display text-3xl font-bold text-gray-900 dark:text-white mb-2">✨ Create Custom Workout</h1>
+    <p class="text-gray-500 dark:text-gray-400">Design your own personalized training program</p>
+  </div>
+
+  <!-- Form Card -->
+  <div class="nt-card p-6 md:p-8">
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      
+      <!-- Workout Name -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Workout Name *
+        </label>
+        {% if form.name.errors %}
+          <p class="text-red-500 text-sm mb-2">{{ form.name.errors.0 }}</p>
+        {% endif %}
+        {{ form.name }}
+      </div>
+
+      <!-- Workout Type -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Workout Type *
+        </label>
+        {% if form.workout_type.errors %}
+          <p class="text-red-500 text-sm mb-2">{{ form.workout_type.errors.0 }}</p>
+        {% endif %}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {% for value, label in form.workout_type.field.choices %}
+            <label class="relative">
+              <input type="radio" name="workout_type" value="{{ value }}" 
+                {% if form.workout_type.value == value %}checked{% endif %}
+                class="sr-only peer">
+              <div class="p-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 cursor-pointer select-none transition-all peer-checked:border-brand-500 peer-checked:bg-brand-50 dark:peer-checked:bg-brand-900/20">
+                <div class="text-center">
+                  <div class="text-2xl mb-1">
+                    {% if value == 'hypertrophy' %}💪
+                    {% elif value == 'strength' %}🏋️
+                    {% elif value == 'endurance' %}🏃
+                    {% else %}⚖️
+                    {% endif %}
+                  </div>
+                  <div class="text-xs font-medium text-gray-700 dark:text-gray-300">{{ label }}</div>
+                </div>
+              </div>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Duration -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Estimated Duration (minutes) *
+        </label>
+        {% if form.duration_min.errors %}
+          <p class="text-red-500 text-sm mb-2">{{ form.duration_min.errors.0 }}</p>
+        {% endif %}
+        {{ form.duration_min }}
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Description
+        </label>
+        {% if form.description.errors %}
+          <p class="text-red-500 text-sm mb-2">{{ form.description.errors.0 }}</p>
+        {% endif %}
+        {{ form.description }}
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <button type="submit" class="btn-primary flex-1">
+          <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Create & Add Exercises
+        </button>
+        <a href="{% url 'workouts:my_custom' %}" class="btn-secondary flex-1 text-center">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Info Box -->
+  <div class="nt-card p-4 mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+    <div class="flex gap-3">
+      <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <div class="text-sm text-blue-700 dark:text-blue-400">
+        <p class="font-semibold mb-1">💡 Pro Tip</p>
+        <p>Create a workout with basic details first, then customize it by adding exercises. You can update all details anytime.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

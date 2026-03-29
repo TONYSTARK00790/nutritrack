@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ custom_workout.name }}{% endblock %}
+
+{% block content %}
+<div class="p-6 pb-24 md:pb-6 max-w-2xl mx-auto flex items-center justify-center min-h-screen">
+  <div class="nt-card p-8 w-full">
+    <!-- Icon -->
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
+        <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <h1 class="font-display text-2xl font-bold text-gray-900 dark:text-white text-center mb-2">
+      Delete Workout?
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400 text-center mb-2">
+      <span class="font-semibold">{{ custom_workout.name }}</span>
+    </p>
+    <p class="text-gray-500 dark:text-gray-500 text-center text-sm mb-6">
+      This action cannot be undone. The workout and all its exercises will be permanently deleted.
+    </p>
+
+    <!-- Workout Details -->
+    <div class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-4 mb-6">
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-gray-600 dark:text-gray-400">Type:</span>
+          <span class="font-medium text-gray-900 dark:text-white">{{ custom_workout.get_workout_type_display }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+          <span class="font-medium text-gray-900 dark:text-white">{{ custom_workout.duration_min }} min</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600 dark:text-gray-400">Exercises:</span>
+          <span class="font-medium text-gray-900 dark:text-white">{{ custom_workout.exercises.count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-3">
+      <form method="post" class="flex-1">
+        {% csrf_token %}
+        <button type="submit" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors">
+          Yes, Delete Permanently
+        </button>
+      </form>
+      <a href="{% url 'workouts:edit_custom' custom_workout.pk %}" class="flex-1 px-4 py-3 text-center rounded-lg border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold transition-colors">
+        Cancel
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
